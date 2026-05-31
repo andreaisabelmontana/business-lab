@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#4338CA" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <title>business-lab · visual strategy, finance &amp; market structures</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+            onload="renderMathInElement(document.body, { delimiters: [{left:'$$', right:'$$', display:true},{left:'$', right:'$', display:false}], ignoredTags: ['option','script','textarea'] })"></script>
+
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="title">
+        <span class="dot"></span><strong>business-lab</strong>
+        <span class="sub">markets · strategy · finance · organizations · scaling</span>
+      </div>
+      <nav>
+        <a href="#supply">supply &amp; demand</a>
+        <a href="#elastic">elasticity</a>
+        <a href="#breakeven">break-even</a>
+        <a href="#cost">cost curves</a>
+        <a href="#plc">life cycle</a>
+        <a href="#bcg">BCG matrix</a>
+        <a href="#swot">decision</a>
+        <a href="#porter">five forces</a>
+        <a href="#org">org tree</a>
+        <a href="#saas">SaaS growth</a>
+      </nav>
+    </header>
+
+    <main>
+      <!-- 1. SUPPLY & DEMAND — Module 1, Session 2 ------------------------ -->
+      <section class="demo" id="supply">
+        <h2>1. Supply &amp; demand — market equilibrium</h2>
+        <p class="cap">Drag the curves or move the sliders to shift supply and demand. Equilibrium sits where the lines cross:
+          $Q_d = a - bP$ and $Q_s = c + dP$. Above the price clears a surplus; below it, a shortage.</p>
+        <div class="row">
+          <div class="canvas-wrap"><canvas id="cv-supply" width="600" height="340"></canvas></div>
+          <div class="ctrls">
+            <label>demand shift <span class="mono" id="sd-dv">0</span>
+              <input id="sd-d" type="range" min="-30" max="30" step="1" value="0"/></label>
+            <label>supply shift <span class="mono" id="sd-sv">0</span>
+              <input id="sd-s" type="range" min="-30" max="30" step="1" value="0"/></label>
+            <label>price line <span class="mono" id="sd-pv">—</span>
+              <input id="sd-p" type="range" min="0" max="100" step="1" value="50"/></label>
+            <div class="readout"><span>equilibrium $P^*$</span><strong id="sd-pe" class="mono">—</strong></div>
+            <div class="readout"><span>equilibrium $Q^*$</span><strong id="sd-qe" class="mono">—</strong></div>
+            <div class="readout"><span>at price line</span><strong id="sd-state" class="mono big">—</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. PRICE ELASTICITY — Module 4, Session 16/19 ------------------- -->
+      <section class="demo" id="elastic">
+        <h2>2. Price elasticity of demand</h2>
+        <p class="cap">Slide the price along a linear demand curve. Elasticity
+          $E_d = \dfrac{\%\Delta Q}{\%\Delta P}$ varies along the line: elastic up top, inelastic down low.
+          Revenue $R = P\cdot Q$ is maximised where $|E_d| = 1$.</p>
+        <div class="row">
+          <div class="canvas-wrap"><canvas id="cv-elastic" width="600" height="340"></canvas></div>
+          <div class="ctrls">
+            <label>price <span class="mono" id="el-pv">50</span>
+              <input id="el-p" type="range" min="1" max="99" step="1" value="50"/></label>
+            <label>max demand $a$ <span class="mono" id="el-av">100</span>
+              <input id="el-a" type="range" min="40" max="160" step="5" value="100"/></label>
+            <div class="readout"><span>quantity $Q$</span><strong id="el-q" class="mono">—</strong></div>
+            <div class="readout"><span>revenue $R$</span><strong id="el-r" class="mono">—</strong></div>
+            <div class="readout"><span>$|E_d|$</span><strong id="el-e" class="mono">—</strong></div>
+            <div class="readout"><span>region</span><strong id="el-reg" class="mono big">—</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. BREAK-EVEN — Module 4, Session 19 (Finance) ----------------- -->
+      <section class="demo" id="breakeven">
+        <h2>3. Break-even analysis</h2>
+        <p class="cap">Total cost $TC = F + vQ$ against revenue $R = pQ$. The break-even quantity is
+          $Q^* = \dfrac{F}{p - v}$. Shaded green = profit, red = loss.</p>
+        <div class="row">
+          <div class="canvas-wrap"><canvas id="cv-breakeven" width="600" height="340"></canvas></div>
+          <div class="ctrls">
+            <label>fixed cost $F$ <span class="mono" id="be-fv">2000</span>
+              <input id="be-f" type="range" min="0" max="6000" step="100" value="2000"/></label>
+            <label>price $p$ <span class="mono" id="be-pv">20</span>
+              <input id="be-p" type="range" min="1" max="60" step="1" value="20"/></label>
+            <label>variable cost $v$ <span class="mono" id="be-vv">8</span>
+              <input id="be-v" type="range" min="0" max="50" step="1" value="8"/></label>
+            <label>units made $Q$ <span class="mono" id="be-qv">200</span>
+              <input id="be-q" type="range" min="0" max="600" step="5" value="200"/></label>
+            <div class="readout"><span>break-even $Q^*$</span><strong id="be-qe" class="mono">—</strong></div>
+            <div class="readout"><span>profit at $Q$</span><strong id="be-profit" class="mono big">—</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. COST CURVES — Module 2, Session 8 (Economies of Scale) ------- -->
+      <section class="demo" id="cost">
+        <h2>4. Cost curves &amp; profit-maximising output</h2>
+        <p class="cap">With cost $TC = F + vQ + kQ^2$, average cost $AC$ is U-shaped and marginal cost $MC = v + 2kQ$ rises.
+          A firm maximises profit where $MC = MR$ (here $MR = p$).</p>
+        <div class="row">
+          <div class="canvas-wrap"><canvas id="cv-cost" width="600" height="340"></canvas></div>
+          <div class="ctrls">
+            <label>fixed cost $F$ <span class="mono" id="co-fv">400</span>
+              <input id="co-f" type="range" min="0" max="1200" step="50" value="400"/></label>
+            <label>scale penalty $k$ <span class="mono" id="co-kv">0.15</span>
+              <input id="co-k" type="range" min="1" max="60" step="1" value="15"/></label>
+            <label>market price $p$ <span class="mono" id="co-pv">30</span>
+              <input id="co-p" type="range" min="5" max="80" step="1" value="30"/></label>
+            <div class="readout"><span>min avg cost at $Q$</span><strong id="co-minq" class="mono">—</strong></div>
+            <div class="readout"><span>profit-max $Q^*$</span><strong id="co-q" class="mono">—</strong></div>
+            <div class="readout"><span>profit</span><strong id="co-profit" class="mono big">—</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. PRODUCT LIFE CYCLE — Module 2, Session 8 -------------------- -->
+      <section class="demo" id="plc">
+        <h2>5. Product life cycle &amp; adoption S-curve</h2>
+        <p class="cap">Cumulative adoption follows a logistic curve $N(t) = \dfrac{M}{1 + e^{-r(t - t_0)}}$;
+          new adopters per period (its derivative) trace the introduction → growth → maturity → decline phases.</p>
+        <div class="row">
+          <div class="canvas-wrap"><canvas id="cv-plc" width="600" height="340"></canvas></div>
+          <div class="ctrls">
+            <label>market size $M$ <span class="mono" id="pl-mv">100</span>
+              <input id="pl-m" type="range" min="40" max="160" step="5" value="100"/></label>
+            <label>growth rate $r$ <span class="mono" id="pl-rv">0.6</span>
+              <input id="pl-r" type="range" min="20" max="120" step="2" value="60"/></label>
+            <label>inflection $t_0$ <span class="mono" id="pl-tv">12</span>
+              <input id="pl-t" type="range" min="4" max="20" step="1" value="12"/></label>
+            <label>now $t$ <span class="mono" id="pl-nv">8</span>
+              <input id="pl-n" type="range" min="0" max="24" step="1" value="8"/></label>
+            <div class="readout"><span>adopted so far</span><strong id="pl-cum" class="mono">—</strong></div>
+            <div class="readout"><span>phase</span><strong id="pl-phase" class="mono big">—</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. BCG MATRIX — Module 2, Session 8 ---------------------------- -->
+      <section class="demo" id="bcg">
+        <h2>6. BCG growth-share matrix</h2>
+        <p class="cap">Each bubble is a business unit, placed by market growth (vertical) and relative market share (horizontal).
+          Drag a bubble across the quadrants: Stars, Cash Cows, Question Marks, Dogs.</p>
+        <div class="row">
+          <div class="canvas-wrap"><canvas id="cv-bcg" width="600" height="360"></canvas></div>
+          <div class="ctrls">
+            <div class="readout"><span>selected unit</span><strong id="bc-sel" class="mono">—</strong></div>
+            <div class="readout"><span>rel. share</span><strong id="bc-share" class="mono">—</strong></div>
+            <div class="readout"><span>market growth</span><strong id="bc-growth" class="mono">—</strong></div>
+            <div class="readout"><span>quadrant</span><strong id="bc-quad" class="mono big">—</strong></div>
+            <button id="bc-reset" class="btn">reset units</button>
+            <p class="hint">Drag the circles. Vertical line = relative share 1.0; horizontal = 10% growth.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. WEIGHTED DECISION MATRIX — Module 3, Session 15 ------------- -->
+      <section class="demo" id="swot">
+        <h2>7. Weighted decision matrix</h2>
+        <p class="cap">Rational decision-making: score options against weighted criteria.
+          Each option's total is $\sum_i w_i\, s_i$. Adjust criterion weights and watch the winner change.</p>
+        <div class="row">
+          <div class="canvas-wrap"><canvas id="cv-swot" width="600" height="320"></canvas></div>
+          <div class="ctrls">
+            <label>weight · price <span class="mono" id="dm-w0v">5</span>
+              <input id="dm-w0" type="range" min="0" max="10" step="1" value="5"/></label>
+            <label>weight · speed <span class="mono" id="dm-w1v">3</span>
+              <input id="dm-w1" type="range" min="0" max="10" step="1" value="3"/></label>
+            <label>weight · quality <span class="mono" id="dm-w2v">7</span>
+              <input id="dm-w2" type="range" min="0" max="10" step="1" value="7"/></label>
+            <label>weight · risk <span class="mono" id="dm-w3v">4</span>
+              <input id="dm-w3" type="range" min="0" max="10" step="1" value="4"/></label>
+            <div class="readout"><span>best option</span><strong id="dm-best" class="mono big">—</strong></div>
+            <p class="hint">Click a cell in the canvas to bump that option's score on a criterion.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 8. PORTER'S FIVE FORCES — Module 2, Session 4 ------------------ -->
+      <section class="demo" id="porter">
+        <h2>8. Porter's five forces</h2>
+        <p class="cap">Rate each force from low to high. The mean pressure drives industry attractiveness:
+          low total force = attractive (high potential profit), high total force = fierce competition.</p>
+        <div class="row">
+          <div class="canvas-wrap"><canvas id="cv-porter" width="600" height="320"></canvas></div>
+          <div class="ctrls">
+            <label>rivalry <span class="mono" id="pf-0v">3</span>
+              <input id="pf-0" type="range" min="0" max="5" step="1" value="3"/></label>
+            <label>new entrants <span class="mono" id="pf-1v">2</span>
+              <input id="pf-1" type="range" min="0" max="5" step="1" value="2"/></label>
+            <label>substitutes <span class="mono" id="pf-2v">3</span>
+              <input id="pf-2" type="range" min="0" max="5" step="1" value="3"/></label>
+            <label>buyer power <span class="mono" id="pf-3v">4</span>
+              <input id="pf-3" type="range" min="0" max="5" step="1" value="4"/></label>
+            <label>supplier power <span class="mono" id="pf-4v">2</span>
+              <input id="pf-4" type="range" min="0" max="5" step="1" value="2"/></label>
+            <div class="readout"><span>mean force</span><strong id="pf-mean" class="mono">—</strong></div>
+            <div class="readout"><span>attractiveness</span><strong id="pf-attr" class="mono big">—</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 9. ORG STRUCTURE TREE — Module 3, Session 13 ------------------- -->
+      <section class="demo" id="org">
+        <h2>9. Organizational structure &amp; span of control</h2>
+        <p class="cap">A balanced hierarchy of $N$ employees. With span of control $s$, the number of layers is
+          about $\log_s N$. Wider spans flatten the org; narrower spans deepen it.</p>
+        <div class="row">
+          <div class="canvas-wrap"><canvas id="cv-org" width="600" height="340"></canvas></div>
+          <div class="ctrls">
+            <label>employees $N$ <span class="mono" id="or-nv">40</span>
+              <input id="or-n" type="range" min="3" max="120" step="1" value="40"/></label>
+            <label>span of control $s$ <span class="mono" id="or-sv">3</span>
+              <input id="or-s" type="range" min="2" max="6" step="1" value="3"/></label>
+            <div class="readout"><span>management layers</span><strong id="or-layers" class="mono">—</strong></div>
+            <div class="readout"><span>managers</span><strong id="or-mgr" class="mono">—</strong></div>
+            <div class="readout"><span>shape</span><strong id="or-shape" class="mono big">—</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 10. SAAS / COMPOUND GROWTH — Module 5, Session 23 -------------- -->
+      <section class="demo" id="saas">
+        <h2>10. SaaS growth &amp; compounding (MRR)</h2>
+        <p class="cap">Monthly recurring revenue compounds with new signups but leaks to churn:
+          $MRR_{t+1} = MRR_t(1 - c) + \text{new}$. Net retention &gt; 100% means revenue grows even with zero new sales.</p>
+        <div class="row">
+          <div class="canvas-wrap"><canvas id="cv-saas" width="600" height="340"></canvas></div>
+          <div class="ctrls">
+            <label>starting MRR <span class="mono" id="sa-mv">10000</span>
+              <input id="sa-m" type="range" min="1000" max="50000" step="1000" value="10000"/></label>
+            <label>new MRR / month <span class="mono" id="sa-nv">2000</span>
+              <input id="sa-n" type="range" min="0" max="10000" step="250" value="2000"/></label>
+            <label>monthly churn <span class="mono" id="sa-cv">5%</span>
+              <input id="sa-c" type="range" min="0" max="30" step="1" value="5"/></label>
+            <label>months <span class="mono" id="sa-tv">24</span>
+              <input id="sa-t" type="range" min="6" max="48" step="1" value="24"/></label>
+            <div class="readout"><span>MRR at horizon</span><strong id="sa-end" class="mono">—</strong></div>
+            <div class="readout"><span>steady-state MRR</span><strong id="sa-steady" class="mono">—</strong></div>
+            <div class="readout"><span>trajectory</span><strong id="sa-state" class="mono big">—</strong></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>business-lab — Andrea Montana · IE BCSAI</span>
+      <span class="more">
+        <a href="https://github.com/andreaisabelmontana/calc-lab"  target="_blank">calc-lab</a>
+        <a href="https://github.com/andreaisabelmontana/stats-lab" target="_blank">stats-lab</a>
+        <a href="https://github.com/andreaisabelmontana/discrete-math-lab" target="_blank">discrete-math-lab</a>
+        <a href="https://github.com/andreaisabelmontana/business-lab" target="_blank">source</a>
+      </span>
+    </footer>
+
+    <script type="module" src="./src/app.js"></script>
+  </body>
+</html>
