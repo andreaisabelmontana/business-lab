@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#4338CA" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <title>business-lab · course structure — Introduction to Business Management</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="./style.css" />
+    <style>
+      /* course-structure page — scoped additions, reuses :root tokens from style.css */
+      .lead { color: var(--ink-soft); font-size: 0.92rem; max-width: 70ch; }
+      .meta-grid {
+        display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 0.6rem; margin-top: 0.4rem;
+      }
+      .meta-grid .cell {
+        border: 1px solid var(--rule); border-radius: 6px; padding: 0.55rem 0.7rem;
+        background: var(--bg);
+      }
+      .meta-grid .cell .k { color: var(--muted); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.04em; }
+      .meta-grid .cell .v { color: var(--ink); font-weight: 700; font-size: 0.9rem; margin-top: 0.15rem; }
+
+      .obj-list { margin: 0.4rem 0 0; padding-left: 1.1rem; color: var(--ink-soft); }
+      .obj-list li { margin: 0.25rem 0; }
+
+      /* assessment bars */
+      .bars { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.5rem; }
+      .bar-row { display: grid; grid-template-columns: 170px 1fr 52px; align-items: center; gap: 0.7rem; font-size: 0.84rem; }
+      .bar-track { height: 12px; background: var(--rule); border-radius: 999px; overflow: hidden; }
+      .bar-fill { height: 100%; background: var(--accent); border-radius: 999px; }
+      .bar-row .pct { font-family: var(--font-mono); font-weight: 600; text-align: right; color: var(--ink); }
+      .note { color: var(--muted); font-size: 0.78rem; margin-top: 0.6rem; }
+
+      /* methodology table */
+      table.method { width: 100%; border-collapse: collapse; margin-top: 0.4rem; font-size: 0.84rem; }
+      table.method th, table.method td { text-align: left; padding: 0.4rem 0.6rem; border-bottom: 1px solid var(--rule); }
+      table.method th { color: var(--muted); font-weight: 600; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; }
+      table.method td.n { font-family: var(--font-mono); text-align: right; }
+
+      /* module + sessions */
+      .module { margin-top: 0.4rem; }
+      .module-head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.6rem; flex-wrap: wrap; }
+      .module-head h3 { margin: 0; font-size: 0.98rem; font-weight: 800; letter-spacing: -0.01em; }
+      .module-head .span { font-family: var(--font-mono); font-size: 0.74rem; color: var(--accent); background: var(--accent-soft); padding: 0.12em 0.5em; border-radius: 999px; }
+      .module-desc { color: var(--muted); font-size: 0.82rem; margin: 0.2rem 0 0.7rem; }
+
+      .session { border-left: 2px solid var(--rule); padding: 0 0 0.9rem 0.9rem; margin-left: 0.3rem; position: relative; }
+      .session::before {
+        content: ''; position: absolute; left: -5px; top: 4px; width: 8px; height: 8px;
+        border-radius: 999px; background: var(--accent);
+      }
+      .session:last-child { padding-bottom: 0.2rem; }
+      .session .s-no { font-family: var(--font-mono); font-size: 0.7rem; color: var(--muted); }
+      .session .s-title { font-weight: 700; font-size: 0.88rem; margin: 0.05rem 0 0.2rem; }
+      .session .s-obj { color: var(--ink-soft); font-size: 0.82rem; margin: 0 0 0.3rem; }
+      .session ul { margin: 0.2rem 0 0.35rem; padding-left: 1.05rem; color: var(--ink-soft); font-size: 0.82rem; }
+      .session ul li { margin: 0.12rem 0; }
+      .reads { font-size: 0.76rem; color: var(--muted); }
+      .reads .tag { display: inline-block; font-family: var(--font-mono); font-size: 0.68rem; color: var(--accent); border: 1px solid var(--rule-h); border-radius: 4px; padding: 0.04em 0.4em; margin: 0.12rem 0.2rem 0 0; }
+      .milestone .s-title { color: var(--accent); }
+
+      .toc { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.3rem; }
+      .toc a { font-size: 0.76rem; color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 999px; padding: 0.18em 0.7em; }
+      .toc a:hover { border-color: var(--accent); color: var(--accent); }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="title">
+        <span class="dot"></span><strong>business-lab</strong>
+        <span class="sub">course structure · Introduction to Business Management</span>
+      </div>
+      <nav>
+        <a href="./index.html">← interactive demos</a>
+        <a href="#meta">overview</a>
+        <a href="#objectives">objectives</a>
+        <a href="#assessment">assessment</a>
+        <a href="#program">program</a>
+        <a href="./SYLLABUS.pdf" target="_blank">syllabus PDF</a>
+      </nav>
+    </header>
+
+    <main>
+      <!-- OVERVIEW / META -->
+      <section class="demo" id="meta">
+        <h2>Introduction to Business Management</h2>
+        <p class="lead">A foundational understanding of business management tailored for Computer Science &amp; AI
+          students. It integrates classical management principles with the dynamics of the digital and AI-driven
+          economy, enabling students to comprehend and design business models and strategies in a technological
+          context. This page mirrors the official IE University syllabus; the
+          <a href="./index.html">interactive demos</a> visualise its core quantitative ideas.</p>
+        <div class="meta-grid">
+          <div class="cell"><div class="k">Degree</div><div class="v">BCSAI · IE University</div></div>
+          <div class="cell"><div class="k">Code</div><div class="v">IBM-N-CSAI.1.M.A</div></div>
+          <div class="cell"><div class="k">Area</div><div class="v">Computer Science</div></div>
+          <div class="cell"><div class="k">Year / Semester</div><div class="v">Year 1 · Sem 1</div></div>
+          <div class="cell"><div class="k">Sessions</div><div class="v">30</div></div>
+          <div class="cell"><div class="k">Credits</div><div class="v">6.0 ECTS</div></div>
+          <div class="cell"><div class="k">Category</div><div class="v">Compulsory</div></div>
+          <div class="cell"><div class="k">Language</div><div class="v">English</div></div>
+          <div class="cell"><div class="k">Professor</div><div class="v">Jorge Dinarés García</div></div>
+        </div>
+        <div class="toc">
+          <a href="#m1">M1 · Foundations</a>
+          <a href="#m2">M2 · Strategy</a>
+          <a href="#m3">M3 · Organization</a>
+          <a href="#m4">M4 · Functions</a>
+          <a href="#m5">M5 · Scaling</a>
+          <a href="#m6">Wrap-up</a>
+        </div>
+      </section>
+
+      <!-- LEARNING OBJECTIVES -->
+      <section class="demo" id="objectives">
+        <h2>Learning objectives</h2>
+        <p class="cap">What you should be able to do by the end of the course.</p>
+        <ul class="obj-list">
+          <li>Understand foundational principles of management and the role of businesses in modern economies.</li>
+          <li>Analyze and design business models using traditional and modern frameworks.</li>
+          <li>Recognize how AI and digital technologies influence strategy, decision-making, and organizational structure.</li>
+          <li>Assess internal and external environments using tools like SWOT, PESTEL, and Porter's Five Forces.</li>
+          <li>Understand the functional areas of the firm and how they interconnect.</li>
+          <li>Apply concepts through practical projects and real-world case studies.</li>
+        </ul>
+      </section>
+
+      <!-- METHODOLOGY + ASSESSMENT -->
+      <section class="demo" id="assessment">
+        <h2>Methodology &amp; assessment</h2>
+        <p class="cap">IE's method is collaborative, active and applied — 150 hours total student dedication.</p>
+        <div class="row">
+          <div>
+            <table class="method">
+              <thead><tr><th>Learning activity</th><th>Weight</th><th>Hours</th></tr></thead>
+              <tbody>
+                <tr><td>Lectures</td><td class="n">23.3%</td><td class="n">35.0</td></tr>
+                <tr><td>Discussions</td><td class="n">10.0%</td><td class="n">15.0</td></tr>
+                <tr><td>Exercises · async · field work</td><td class="n">16.7%</td><td class="n">25.0</td></tr>
+                <tr><td>Group work</td><td class="n">16.7%</td><td class="n">25.0</td></tr>
+                <tr><td>Individual study</td><td class="n">33.3%</td><td class="n">50.0</td></tr>
+                <tr><td><strong>Total</strong></td><td class="n"><strong>100%</strong></td><td class="n"><strong>150.0</strong></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <div class="bars">
+              <div class="bar-row"><span>Class participation</span><span class="bar-track"><span class="bar-fill" style="width:20%"></span></span><span class="pct">20%</span></div>
+              <div class="bar-row"><span>Group assignments</span><span class="bar-track"><span class="bar-fill" style="width:30%"></span></span><span class="pct">30%</span></div>
+              <div class="bar-row"><span>Final exam</span><span class="bar-track"><span class="bar-fill" style="width:50%"></span></span><span class="pct">50%</span></div>
+            </div>
+            <p class="note">A minimum of 40% on the final exam is required to pass, regardless of other components.
+              An 80% attendance rule applies. GenAI use is not permitted unless stated by the instructor.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROGRAM -->
+      <section class="demo" id="program">
+        <h2>Program — 5 modules · 30 sessions</h2>
+        <p class="cap">The full session-by-session structure from the syllabus. Demos from the home page are cross-referenced where relevant.</p>
+
+        <!-- MODULE 1 -->
+        <div class="module" id="m1">
+          <div class="module-head"><h3>Module 1 — Foundations of Business</h3><span class="span">Sessions 1–2</span></div>
+          <p class="module-desc">Evolution of business models, economic systems &amp; market structures, public vs private enterprise.</p>
+          <div class="session">
+            <div class="s-no">SESSION 1</div>
+            <div class="s-title">Course Introduction + History of Business</div>
+            <p class="s-obj">Introduce objectives, expectations and evaluation; historical overview from ancient trade to the digital economy.</p>
+            <ul><li>Key business eras: pre-industrial, Industrial Revolution, Management Revolution, Digital Age</li><li>The role of business in society over time</li></ul>
+            <div class="reads"><span class="tag">Bain</span>3,000 Years of Business History · <span class="tag">book</span>Samuelson &amp; Nordhaus, <em>Economics</em></div>
+          </div>
+          <div class="session">
+            <div class="s-no">SESSION 2</div>
+            <div class="s-title">Market Structures + Public vs Private Enterprises</div>
+            <p class="s-obj">Analyze different market structures and ownership models.</p>
+            <ul><li>Perfect competition, monopoly, oligopoly</li><li>Public vs private: efficiency &amp; innovation; public-private partnerships</li></ul>
+            <div class="reads"><span class="tag">HBS case</span>The Robin Hood Army · <span class="tag">book</span>Samuelson &amp; Nordhaus, <em>Microeconomics</em></div>
+          </div>
+        </div>
+
+        <!-- MODULE 2 -->
+        <div class="module" id="m2">
+          <div class="module-head"><h3>Module 2 — Strategic Thinking &amp; Tools</h3><span class="span">Sessions 3–10</span></div>
+          <p class="module-desc">Strategy fundamentals; SWOT, PESTEL, Porter's Five Forces; Lean Startup &amp; Business Model Canvas; Blue Ocean &amp; AI.</p>
+          <div class="session">
+            <div class="s-no">SESSION 3</div>
+            <div class="s-title">Strategy Basics: What is Strategy?</div>
+            <p class="s-obj">Introduce strategic thinking and the role of strategy in business success.</p>
+            <ul><li>Definitions &amp; types; competitive advantage and positioning</li><li>Corporate, business and functional strategies</li></ul>
+            <div class="reads"><span class="tag">tutorial</span>Industry Evolution · Disruptive Change · Strategy Archetypes</div>
+          </div>
+          <div class="session">
+            <div class="s-no">SESSION 4</div>
+            <div class="s-title">SWOT, PESTEL &amp; Porter's Five Forces</div>
+            <p class="s-obj">Learn strategic analysis frameworks for diagnosing businesses.</p>
+            <ul><li>SWOT; PESTEL macro-environmental analysis</li><li>Five Forces: rivalry, supplier/buyer power, substitutes, new entrants</li></ul>
+            <div class="reads"><span class="tag">demo</span>Five forces · SWOT decision (home page) · <span class="tag">HBS</span>Strengths Really Weaknesses?</div>
+          </div>
+          <div class="session">
+            <div class="s-no">SESSION 5</div>
+            <div class="s-title">Blue Ocean Strategy + AI &amp; Strategic Advantage</div>
+            <p class="s-obj">Innovation-driven strategy and the role of AI in strategic positioning.</p>
+            <ul><li>Value innovation; eliminate-reduce-raise-create grid</li><li>Red vs blue ocean markets; AI for data-driven advantage</li></ul>
+            <div class="reads"><span class="tag">book</span>Kim &amp; Mauborgne, <em>Blue Ocean Strategy</em> · <span class="tag">HBR</span>AI-Powered Strategy</div>
+          </div>
+          <div class="session">
+            <div class="s-no">SESSION 6</div>
+            <div class="s-title">Business Model Canvas + Lean Startup</div>
+            <p class="s-obj">Understand how to design and iterate business models.</p>
+            <ul><li>BMC components; Lean Startup methodology &amp; MVPs</li><li>Iteration and pivoting in startups</li></ul>
+            <div class="reads"><span class="tag">Strategyzer</span>BMC Explained · <span class="tag">book</span>Ries, <em>The Lean Startup</em> · Dropbox MVP</div>
+          </div>
+          <div class="session">
+            <div class="s-no">SESSION 7</div>
+            <div class="s-title">Value Chain &amp; Business Process Mapping</div>
+            <p class="s-obj">Understand internal operations and how businesses create value.</p>
+            <ul><li>Porter's Value Chain: primary &amp; support activities</li><li>Cost drivers, differentiation; process modelling &amp; re-engineering</li></ul>
+            <div class="reads"><span class="tag">book</span>Porter, <em>Competitive Advantage</em> · <span class="tag">HubSpot</span>Value Chain Analysis</div>
+          </div>
+          <div class="session">
+            <div class="s-no">SESSION 8</div>
+            <div class="s-title">Product Life Cycle, BCG Matrix &amp; Growth Strategies</div>
+            <p class="s-obj">Analyze products and units using life-cycle and portfolio planning frameworks.</p>
+            <ul><li>PLC phases; BCG matrix: Stars, Cash Cows, Question Marks, Dogs</li><li>Growth: market penetration, product development, diversification</li></ul>
+            <div class="reads"><span class="tag">demo</span>Life cycle · BCG matrix (home page) · <span class="tag">BCG</span>Growth-Share Matrix</div>
+          </div>
+          <div class="session milestone">
+            <div class="s-no">SESSION 9 · milestone</div>
+            <div class="s-title">Groupwork 1 — Business Model presentations</div>
+            <p class="s-obj">Present and defend a business-model proposal; peer and instructor feedback.</p>
+          </div>
+          <div class="session milestone">
+            <div class="s-no">SESSION 10 · milestone</div>
+            <div class="s-title">Half-Term Exam</div>
+          </div>
+        </div>
+
+        <!-- MODULE 3 -->
+        <div class="module" id="m3">
+          <div class="module-head"><h3>Module 3 — Organizational Design, Leadership &amp; Governance</h3><span class="span">Sessions 11–15</span></div>
+          <p class="module-desc">Corporate governance, strategy implementation &amp; the 7-S model, structures, culture &amp; responsible AI, leadership.</p>
+          <div class="session">
+            <div class="s-no">SESSION 11</div>
+            <div class="s-title">Governance, Board &amp; CEO Roles</div>
+            <p class="s-obj">Fundamentals of corporate governance and how board/CEO relationships shape strategic direction.</p>
+            <ul><li>Board responsibilities; CEO–board–shareholder relationship</li></ul>
+            <div class="reads"><span class="tag">PwC</span>The Governance Divide · <span class="tag">HBR</span>Role of Boards in Startups</div>
+          </div>
+          <div class="session">
+            <div class="s-no">SESSION 12</div>
+            <div class="s-title">Strategy Implementation, Strategic Direction &amp; the 7-S Model</div>
+            <p class="s-obj">Translate strategy into action by aligning purpose, leadership, systems and structure.</p>
+            <ul><li>Purpose, vision, values, goals; McKinsey 7-S framework</li><li>Strategic management in dynamic environments</li></ul>
+            <div class="reads"><span class="tag">HBS</span>Balanced Scorecard · <span class="tag">McKinsey</span>7-S Framework</div>
+          </div>
+          <div class="session">
+            <div class="s-no">SESSION 13</div>
+            <div class="s-title">Organizational Structures</div>
+            <p class="s-obj">Understand how organizations are structured to align strategy and execution.</p>
+            <ul><li>Functional, divisional, matrix; team-based &amp; networked organizations</li><li>Advantages &amp; challenges of each model</li></ul>
+            <div class="reads"><span class="tag">HBS</span>Note on Organizational Structure</div>
+          </div>
+          <div class="session">
+            <div class="s-no">SESSION 14</div>
+            <div class="s-title">Ethics, Culture &amp; Responsible AI</div>
+            <p class="s-obj">Cultural and ethical responsibilities in global and tech-intensive environments.</p>
+            <ul><li>Organizational culture &amp; Hofstede's dimensions</li><li>Ethics in management; responsible AI: bias, transparency, accountability</li></ul>
+            <div class="reads"><span class="tag">Hofstede</span>6-D model · <span class="tag">WEF</span>Responsible AI Principles</div>
+          </div>
+          <div class="session">
+            <div class="s-no">SESSION 15</div>
+            <div class="s-title">Leadership, Motivation &amp; Decision-Making</div>
+            <p class="s-obj">The human side of management and effective leadership.</p>
+            <ul><li>Leadership styles; motivation: Maslow, Herzberg, McClelland</li><li>Rational vs intuitive decision-making</li></ul>
+            <div class="reads"><span class="tag">HBS</span>The Coherence Premium · <span class="tag">case</span>Irizar in 2005</div>
+          </div>
+        </div>
+
+        <!-- MODULE 4 -->
+        <div class="module" id="m4">
+          <div class="module-head"><h3>Module 4 — Functional Areas of Business</h3><span class="span">Sessions 16–22</span></div>
+          <p class="module-desc">Marketing, sales, R&amp;D, finance, HR, legal and IT/MIS — and how AI &amp; analytics transform each function.</p>
+          <div class="session">
+            <div class="s-no">SESSION 16</div>
+            <div class="s-title">Marketing: Digital Channels &amp; Data</div>
+            <p class="s-obj">Modern marketing practices and how digital tools transform engagement.</p>
+            <ul><li>Marketing in value creation; SEO, content, email, social</li><li>Segmentation, targeting, personalization</li></ul>
+            <div class="reads"><span class="tag">book</span>Kotler, <em>Marketing 4.0</em> · <span class="tag">Forbes</span>Future of Marketing is Personalization</div>
+          </div>
+          <div class="session">
+            <div class="s-no">SESSION 17</div>
+            <div class="s-title">Sales: Funnels, CRM &amp; KPIs</div>
+            <p class="s-obj">Explore the sales process and managing it with technology.</p>
+            <ul><li>B2B vs B2C; sales funnel stages &amp; KPIs</li><li>CRM systems and sales automation</li></ul>
+            <div class="reads"><span class="tag">case</span>Salesforce &amp; the Evolution of CRM · <span class="tag">HubSpot</span>Sales Metrics That Matter</div>
+          </div>
+          <div class="session">
+            <div class="s-no">SESSION 18</div>
+            <div class="s-title">R&amp;D: Innovation Processes in Tech</div>
+            <p class="s-obj">How businesses manage research and development.</p>
+            <ul><li>Ideation, prototyping, testing; open innovation</li><li>Tech trends driving R&amp;D in AI and software</li></ul>
+            <div class="reads"><span class="tag">HBR</span>How Companies Accelerate Innovation · <span class="tag">book</span>Kelley, <em>The Art of Innovation</em></div>
+          </div>
+          <div class="session">
+            <div class="s-no">SESSION 19</div>
+            <div class="s-title">Finance: Basics, Budgeting &amp; Profitability</div>
+            <p class="s-obj">Financial decision-making within organizations.</p>
+            <ul><li>Income statements, balance sheets, cash flow</li><li>Budgeting &amp; variance; profitability metrics &amp; break-even</li></ul>
+            <div class="reads"><span class="tag">demo</span>Break-even · Cost curves (home page) · <span class="tag">book</span>Abascal &amp; Aguirreamalloa, <em>Finance for Managers</em></div>
+          </div>
+          <div class="session">
+            <div class="s-no">SESSION 20</div>
+            <div class="s-title">HR: People Analytics &amp; Talent Strategy</div>
+            <p class="s-obj">The evolving role of HR in talent development and analytics.</p>
+            <ul><li>Recruitment, onboarding, retention; employee experience</li><li>HR analytics and predictive modeling</li></ul>
+            <div class="reads"><span class="tag">HBS</span>Is HR the Most Analytics-Driven Function? · <span class="tag">book</span>Fournier, <em>The Manager's Path</em></div>
+          </div>
+          <div class="session">
+            <div class="s-no">SESSION 21</div>
+            <div class="s-title">Legal Aspects: IP, Data &amp; Compliance</div>
+            <p class="s-obj">Legal and regulatory issues affecting businesses, especially in tech.</p>
+            <ul><li>IP: patents, trademarks, copyright; data protection &amp; GDPR</li><li>Compliance and risk management</li></ul>
+            <div class="reads"><span class="tag">HBS</span>Axiom — Law Redefined · <span class="tag">book</span>Dutfield &amp; Suthersanen, <em>Global IP Law</em></div>
+          </div>
+          <div class="session">
+            <div class="s-no">SESSION 22</div>
+            <div class="s-title">IT &amp; MIS: Enabling Business with Tech</div>
+            <p class="s-obj">The strategic role of information systems in business management.</p>
+            <ul><li>MIS structure &amp; goals; IT as enabler: automation, integration, analytics</li><li>Digital infrastructure and transformation</li></ul>
+            <div class="reads"><span class="tag">book</span>Laudon &amp; Brabston, <em>Management Information Systems</em></div>
+          </div>
+        </div>
+
+        <!-- MODULE 5 -->
+        <div class="module" id="m5">
+          <div class="module-head"><h3>Module 5 — Digital Transformation &amp; Globalization</h3><span class="span">Sessions 23–26</span></div>
+          <p class="module-desc">Scaling tech businesses, platform &amp; SaaS economics, the gig economy, internationalization and the investor pitch.</p>
+          <div class="session">
+            <div class="s-no">SESSION 23</div>
+            <div class="s-title">Scaling Businesses (SaaS, Product-Market Fit)</div>
+            <p class="s-obj">How startups and tech firms manage rapid growth.</p>
+            <ul><li>Growth vs scaling; SaaS unit economics &amp; customer lifecycle</li><li>Achieving product-market fit</li></ul>
+            <div class="reads"><span class="tag">demo</span>SaaS growth (home page) · <span class="tag">book</span>Croll &amp; Yoskovitz, <em>Lean Analytics</em></div>
+          </div>
+          <div class="session">
+            <div class="s-no">SESSION 24</div>
+            <div class="s-title">Platforms, Subscriptions &amp; the Gig Economy</div>
+            <p class="s-obj">New business models and how technology enables decentralized participation.</p>
+            <ul><li>Subscription &amp; SaaS models; the gig economy</li></ul>
+            <div class="reads"><span class="tag">case</span>Uber / Airbnb / Spotify · <span class="tag">Deloitte</span>Rise of the Platform Economy</div>
+          </div>
+          <div class="session">
+            <div class="s-no">SESSION 25</div>
+            <div class="s-title">Internationalization &amp; Global Strategy</div>
+            <p class="s-obj">How businesses scale globally and tailor strategy for international markets.</p>
+            <ul><li>Exporting, franchising, joint ventures, subsidiaries</li><li>Risk &amp; complexity; entry modes and positioning abroad</li></ul>
+            <div class="reads"><span class="tag">tutorial</span>Internationalization Strategies · <span class="tag">BCG</span>When Asset Light Is Right</div>
+          </div>
+          <div class="session">
+            <div class="s-no">SESSION 26</div>
+            <div class="s-title">Business Plan &amp; Pitching Skills Workshop</div>
+            <p class="s-obj">Structure a compelling business plan and communicate it through a professional investor pitch.</p>
+            <ul><li>Plan components: opportunity, execution, financials, risk</li><li>Persuasive pitch (11-slide model); 2-minute elevator pitch workshop</li></ul>
+            <div class="reads"><span class="tag">Sequoia</span>10-Slide Pitch Deck · <span class="tag">video</span>Guy Kawasaki — Art of the Pitch</div>
+          </div>
+        </div>
+
+        <!-- WRAP-UP -->
+        <div class="module" id="m6">
+          <div class="module-head"><h3>Final Wrap-up</h3><span class="span">Sessions 27–30</span></div>
+          <p class="module-desc">Industry masterclass, course closure, final group presentations and the final exam.</p>
+          <div class="session"><div class="s-no">SESSION 27</div><div class="s-title">Masterclass — How technology &amp; AI create competitive advantage</div><p class="s-obj">Learn from an executive how their company uses technology and AI for competitive advantage.</p></div>
+          <div class="session"><div class="s-no">SESSION 28</div><div class="s-title">Course Wrap-Up</div></div>
+          <div class="session milestone"><div class="s-no">SESSION 29 · milestone</div><div class="s-title">Groupwork 2 — Business Plan presentations</div></div>
+          <div class="session milestone"><div class="s-no">SESSION 30 · milestone</div><div class="s-title">Final Exam</div></div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>business-lab — Andrea Montana · IE BCSAI · course structure from the official syllabus</span>
+      <span class="more">
+        <a href="./index.html">interactive demos</a>
+        <a href="./SYLLABUS.pdf" target="_blank">syllabus</a>
+        <a href="https://github.com/andreaisabelmontana/business-lab" target="_blank">source</a>
+      </span>
+    </footer>
+  </body>
+</html>
