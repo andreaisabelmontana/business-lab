@@ -50,6 +50,16 @@
       .module-head .span { font-family: var(--font-mono); font-size: 0.74rem; color: var(--accent); background: var(--accent-soft); padding: 0.12em 0.5em; border-radius: 999px; }
       .module-desc { color: var(--muted); font-size: 0.82rem; margin: 0.2rem 0 0.7rem; }
 
+      /* module overview + per-module learning outcomes (scoped additions) */
+      .module-overview {
+        border: 1px solid var(--rule); border-left: 3px solid var(--accent);
+        background: var(--bg); border-radius: 6px; padding: 0.6rem 0.8rem; margin: 0 0 0.8rem;
+      }
+      .module-overview p { margin: 0; color: var(--ink-soft); font-size: 0.83rem; }
+      .module-overview .lo-label { color: var(--muted); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.04em; margin: 0.55rem 0 0.2rem; }
+      .module-overview ul { margin: 0; padding-left: 1.1rem; color: var(--ink-soft); font-size: 0.81rem; }
+      .module-overview ul li { margin: 0.12rem 0; }
+
       .session { border-left: 2px solid var(--rule); padding: 0 0 0.9rem 0.9rem; margin-left: 0.3rem; position: relative; }
       .session::before {
         content: ''; position: absolute; left: -5px; top: 4px; width: 8px; height: 8px;
@@ -61,13 +71,44 @@
       .session .s-obj { color: var(--ink-soft); font-size: 0.82rem; margin: 0 0 0.3rem; }
       .session ul { margin: 0.2rem 0 0.35rem; padding-left: 1.05rem; color: var(--ink-soft); font-size: 0.82rem; }
       .session ul li { margin: 0.12rem 0; }
+      .session ul li b { color: var(--ink); font-weight: 600; }
+      /* "key idea" / example callout inside a session */
+      .keyidea {
+        font-size: 0.79rem; color: var(--ink-soft); background: var(--accent-soft);
+        border-radius: 5px; padding: 0.32rem 0.55rem; margin: 0.1rem 0 0.4rem;
+      }
+      .keyidea b { color: var(--accent); font-weight: 600; }
+      .formula { font-family: var(--font-mono); font-size: 0.78rem; color: var(--ink); }
       .reads { font-size: 0.76rem; color: var(--muted); }
       .reads .tag { display: inline-block; font-family: var(--font-mono); font-size: 0.68rem; color: var(--accent); border: 1px solid var(--rule-h); border-radius: 4px; padding: 0.04em 0.4em; margin: 0.12rem 0.2rem 0 0; }
+      .reads .ann { color: var(--muted); }
       .milestone .s-title { color: var(--accent); }
 
       .toc { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.3rem; }
       .toc a { font-size: 0.76rem; color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 999px; padding: 0.18em 0.7em; }
       .toc a:hover { border-color: var(--accent); color: var(--accent); }
+
+      /* glossary (scoped additions) */
+      .glossary { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.55rem; margin-top: 0.5rem; }
+      .glossary .term { border: 1px solid var(--rule); border-radius: 6px; padding: 0.5rem 0.65rem; background: var(--bg); }
+      .glossary .term .t { font-weight: 700; font-size: 0.82rem; color: var(--ink); }
+      .glossary .term .d { font-size: 0.79rem; color: var(--ink-soft); margin-top: 0.15rem; }
+
+      /* bibliography (scoped additions) */
+      .biblio { margin: 0.4rem 0 0; padding: 0; list-style: none; }
+      .biblio li { padding: 0.45rem 0; border-bottom: 1px solid var(--rule); font-size: 0.82rem; color: var(--ink); }
+      .biblio li:last-child { border-bottom: 0; }
+      .biblio .cite { font-weight: 600; }
+      .biblio .ann { color: var(--ink-soft); display: block; margin-top: 0.12rem; font-size: 0.79rem; }
+      .biblio .sx { font-family: var(--font-mono); font-size: 0.68rem; color: var(--accent); }
+
+      /* assessment component cards */
+      .assess-cards { display: flex; flex-direction: column; gap: 0.55rem; margin-top: 0.6rem; }
+      .assess-cards .ac { border: 1px solid var(--rule); border-radius: 6px; padding: 0.55rem 0.7rem; }
+      .assess-cards .ac .h { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; }
+      .assess-cards .ac .h .name { font-weight: 700; font-size: 0.85rem; }
+      .assess-cards .ac .h .w { font-family: var(--font-mono); font-size: 0.74rem; color: var(--accent); }
+      .assess-cards .ac p { margin: 0.25rem 0 0; font-size: 0.8rem; color: var(--ink-soft); }
     </style>
   </head>
   <body>
@@ -82,6 +123,8 @@
         <a href="#objectives">objectives</a>
         <a href="#assessment">assessment</a>
         <a href="#program">program</a>
+        <a href="#glossary">glossary</a>
+        <a href="#biblio">bibliography</a>
         <a href="./SYLLABUS.pdf" target="_blank">syllabus PDF</a>
       </nav>
     </header>
@@ -95,17 +138,29 @@
           economy, enabling students to comprehend and design business models and strategies in a technological
           context. This page mirrors the official IE University syllabus; the
           <a href="./index.html">interactive demos</a> visualise its core quantitative ideas.</p>
+        <p class="lead">The course runs across <strong>five thematic modules plus a wrap-up</strong>, building from the
+          economic foundations of the firm (M1) to strategic analysis tools (M2), the design of organizations and
+          leadership (M3), the functional machinery of a company (M4) and finally how tech businesses scale and go
+          global (M5). It closes with an executive masterclass, a full investor pitch and a comprehensive exam.
+          Throughout, classical frameworks (Porter, the BCG matrix, the 7-S model) are read through the lens of AI and
+          data — how each tool changes when software and machine learning are part of the business.</p>
         <div class="meta-grid">
           <div class="cell"><div class="k">Degree</div><div class="v">BCSAI · IE University</div></div>
           <div class="cell"><div class="k">Code</div><div class="v">IBM-N-CSAI.1.M.A</div></div>
           <div class="cell"><div class="k">Area</div><div class="v">Computer Science</div></div>
           <div class="cell"><div class="k">Year / Semester</div><div class="v">Year 1 · Sem 1</div></div>
-          <div class="cell"><div class="k">Sessions</div><div class="v">30</div></div>
-          <div class="cell"><div class="k">Credits</div><div class="v">6.0 ECTS</div></div>
+          <div class="cell"><div class="k">Sessions</div><div class="v">30 · live in-person</div></div>
+          <div class="cell"><div class="k">Credits</div><div class="v">6.0 ECTS · 150 h</div></div>
           <div class="cell"><div class="k">Category</div><div class="v">Compulsory</div></div>
           <div class="cell"><div class="k">Language</div><div class="v">English</div></div>
           <div class="cell"><div class="k">Professor</div><div class="v">Jorge Dinarés García</div></div>
+          <div class="cell"><div class="k">Contact</div><div class="v">jdinares@faculty.ie.edu</div></div>
+          <div class="cell"><div class="k">Office hours</div><div class="v">On request</div></div>
+          <div class="cell"><div class="k">Academic year</div><div class="v">2025–26</div></div>
         </div>
+        <p class="note">Professor profile: 30+ years of IT leadership (co-founder of Oracle Ibérica; CEO of Panda
+          Security; President EMEA &amp; LATAM at Micro Focus), now IT &amp; cyber-security industry expert at One to One
+          Corporate Finance, with fifteen years teaching Strategy at IE Business School.</p>
         <div class="toc">
           <a href="#m1">M1 · Foundations</a>
           <a href="#m2">M2 · Strategy</a>
@@ -113,6 +168,8 @@
           <a href="#m4">M4 · Functions</a>
           <a href="#m5">M5 · Scaling</a>
           <a href="#m6">Wrap-up</a>
+          <a href="#glossary">Glossary</a>
+          <a href="#biblio">Bibliography</a>
         </div>
       </section>
 
@@ -121,12 +178,18 @@
         <h2>Learning objectives</h2>
         <p class="cap">What you should be able to do by the end of the course.</p>
         <ul class="obj-list">
-          <li>Understand foundational principles of management and the role of businesses in modern economies.</li>
-          <li>Analyze and design business models using traditional and modern frameworks.</li>
-          <li>Recognize how AI and digital technologies influence strategy, decision-making, and organizational structure.</li>
-          <li>Assess internal and external environments using tools like SWOT, PESTEL, and Porter's Five Forces.</li>
-          <li>Understand the functional areas of the firm and how they interconnect.</li>
-          <li>Apply concepts through practical projects and real-world case studies.</li>
+          <li><b>Foundations.</b> Understand foundational principles of management and the role of businesses in modern
+            economies — why firms exist, how they create value, and how economic systems and market structures shape them.</li>
+          <li><b>Business models.</b> Analyze and design business models using traditional and modern frameworks (Business
+            Model Canvas, Lean Startup, value-chain thinking), and iterate them from idea to validated MVP.</li>
+          <li><b>AI &amp; digital.</b> Recognize how AI and digital technologies influence strategy, decision-making, and
+            organizational structure — both as a source of competitive advantage and as a governance/ethics challenge.</li>
+          <li><b>Strategic diagnosis.</b> Assess internal and external environments using tools like SWOT, PESTEL, and
+            Porter's Five Forces, and translate the diagnosis into a defensible strategic position.</li>
+          <li><b>Functional fluency.</b> Understand the functional areas of the firm (marketing, sales, R&amp;D, finance,
+            HR, legal, IT/MIS) and how they interconnect and align with strategy.</li>
+          <li><b>Application.</b> Apply concepts through practical projects, a full business plan, an investor pitch, and
+            real-world case studies (HBS cases, technical notes, IE Library readings).</li>
         </ul>
       </section>
 
@@ -134,6 +197,10 @@
       <section class="demo" id="assessment">
         <h2>Methodology &amp; assessment</h2>
         <p class="cap">IE's method is collaborative, active and applied — 150 hours total student dedication.</p>
+        <p class="lead">The professor's role is to lead and guide students toward the learning objectives through a
+          mix of lectures, case discussions, in-class exercises, asynchronous work and group projects. The course
+          relies heavily on the <strong>case method</strong>: you are expected to read the assigned case and materials
+          <em>before</em> each session, form an opinion, and defend it in class — <strong>expect cold calling.</strong></p>
         <div class="row">
           <div>
             <table class="method">
@@ -158,30 +225,87 @@
               An 80% attendance rule applies. GenAI use is not permitted unless stated by the instructor.</p>
           </div>
         </div>
+
+        <!-- Graded components, expanded -->
+        <div class="assess-cards">
+          <div class="ac">
+            <div class="h"><span class="name">A · Class participation</span><span class="w">20%</span></div>
+            <p><b>Deliverable:</b> sustained, prepared contribution to case and reading discussions across the semester.
+              <b>How it's evaluated</b> on three criteria: (1) <em>depth and quality of contribution</em> — insight,
+              rigorous use of case evidence, consistency and realism of argument; (2) <em>moving peers' understanding
+              forward</em> — relevance, timing, clarity and a spirit of involvement; (3) <em>frequency</em> — clearing a
+              threshold of contributions so quality can be judged, without sacrificing quality for "airtime". Cold
+              calling is used; students uncomfortable speaking in class for personal or cultural reasons should tell the
+              professor privately in the first week.</p>
+          </div>
+          <div class="ac">
+            <div class="h"><span class="name">B · Group assignments</span><span class="w">30%</span></div>
+            <p><b>Deliverable:</b> a group project — a business model (Groupwork 1, S9) and a complete business plan
+              (Groupwork 2, S29) — each presented in class <em>and</em> handed in written form, plus additional group
+              work and exercises through the term. <b>How it's evaluated:</b> the project asks you to apply course
+              concepts to a practical problem; quality of analysis, application of frameworks, written deliverable and
+              presentation all count. Detailed project briefs are provided at the start of the course.</p>
+          </div>
+          <div class="ac">
+            <div class="h"><span class="name">C · Final exam</span><span class="w">50%</span></div>
+            <p><b>Deliverable:</b> an individual exam (S30) of essay and semi-structured questions. <b>How it's
+              evaluated:</b> it tests your level of study, your correct use of the tools and frameworks taught in class,
+              and your personal elaboration and critical thinking. <b>Pass rule:</b> a minimum of 40% (40 points) on the
+              exam is mandatory to pass the course regardless of the other components.</p>
+          </div>
+        </div>
+        <p class="note"><b>Attendance &amp; re-sit rules.</b> An 80% attendance rule applies — students who fall below
+          it fail both the ordinary and extraordinary (June/July) calls and must re-enroll the next academic year.
+          Students have four chances across two academic years to pass. The June/July re-sit is a single comprehensive
+          exam (continuous evaluation is not carried over), graded out of a maximum of 8.0 ("notable"); a retake exam in
+          a later year may reach 10.0. Behavior, attendance and ethics follow IE University's published codes.</p>
       </section>
 
       <!-- PROGRAM -->
       <section class="demo" id="program">
         <h2>Program — 5 modules · 30 sessions</h2>
-        <p class="cap">The full session-by-session structure from the syllabus. Demos from the home page are cross-referenced where relevant.</p>
+        <p class="cap">The full session-by-session structure from the syllabus, with a short explanation of each topic,
+          the core framework or definition where technical, and the assigned readings annotated. Demos from the home
+          page are cross-referenced where relevant.</p>
 
         <!-- MODULE 1 -->
         <div class="module" id="m1">
           <div class="module-head"><h3>Module 1 — Foundations of Business</h3><span class="span">Sessions 1–2</span></div>
           <p class="module-desc">Evolution of business models, economic systems &amp; market structures, public vs private enterprise.</p>
+          <div class="module-overview">
+            <p>Sets the historical and economic stage: where businesses came from, the kinds of markets they compete in,
+              and who owns them. It gives you the vocabulary — markets, competition, ownership — that every later module
+              builds on.</p>
+            <div class="lo-label">By the end of this module you can</div>
+            <ul>
+              <li>Place a firm in its historical era and explain how the role of business in society has shifted.</li>
+              <li>Distinguish the main market structures and predict how each shapes pricing and competition.</li>
+              <li>Compare public, private and hybrid (PPP) ownership models on efficiency and innovation.</li>
+            </ul>
+          </div>
           <div class="session">
             <div class="s-no">SESSION 1</div>
             <div class="s-title">Course Introduction + History of Business</div>
             <p class="s-obj">Introduce objectives, expectations and evaluation; historical overview from ancient trade to the digital economy.</p>
-            <ul><li>Key business eras: pre-industrial, Industrial Revolution, Management Revolution, Digital Age</li><li>The role of business in society over time</li></ul>
-            <div class="reads"><span class="tag">Bain</span>3,000 Years of Business History · <span class="tag">book</span>Samuelson &amp; Nordhaus, <em>Economics</em></div>
+            <ul>
+              <li><b>Course overview &amp; methodology</b> — how the case method, participation and grading work, so you know what "prepared" means.</li>
+              <li><b>Key business eras</b> — Pre-industrial (trade &amp; craft), Industrial Revolution (mechanised mass production), Management Revolution (the professional manager and the modern corporation) and the Digital Age (software, platforms, AI). Each era redefined what a "business" is.</li>
+              <li><b>The role of business in society over time</b> — from local provisioning to global value creation and its social responsibilities.</li>
+            </ul>
+            <div class="keyidea"><b>Key idea:</b> business models are historically contingent — the same product can be a craft, a factory good, or a subscription service depending on the era's technology.</div>
+            <div class="reads"><span class="tag">article</span>Bain &amp; Co — <em>3,000 Years of Business History in Two Minutes</em> <span class="ann">· fast visual tour of the eras above</span> · <span class="tag">book</span>Geoff Mann, <em>In the Long Run We Are All Dead</em> <span class="ann">· Keynesianism &amp; political economy</span> · <span class="tag">book</span>Samuelson &amp; Nordhaus, <em>Economics</em> <span class="ann">· the standard intro-economics reference</span></div>
           </div>
           <div class="session">
             <div class="s-no">SESSION 2</div>
             <div class="s-title">Market Structures + Public vs Private Enterprises</div>
             <p class="s-obj">Analyze different market structures and ownership models.</p>
-            <ul><li>Perfect competition, monopoly, oligopoly</li><li>Public vs private: efficiency &amp; innovation; public-private partnerships</li></ul>
-            <div class="reads"><span class="tag">HBS case</span>The Robin Hood Army · <span class="tag">book</span>Samuelson &amp; Nordhaus, <em>Microeconomics</em></div>
+            <ul>
+              <li><b>Market structures</b> — <em>perfect competition</em> (many sellers, identical goods, price-takers), <em>monopoly</em> (one seller sets price), and <em>oligopoly</em> (a few interdependent firms). Structure determines how much pricing power a firm has.</li>
+              <li><b>Public vs private companies</b> — trade-offs in efficiency and innovation: private firms chase profit and move fast; public bodies pursue universal access and stability.</li>
+              <li><b>Public–private partnerships (PPPs)</b> — collaborations that share risk and capability (e.g. infrastructure, health, defence tech).</li>
+            </ul>
+            <div class="keyidea"><b>Key idea:</b> a firm's pricing power rises as you move from perfect competition → oligopoly → monopoly; strategy is largely about moving toward the powerful end legitimately.</div>
+            <div class="reads"><span class="tag">book</span>Samuelson &amp; Nordhaus, <em>Microeconomics</em> (1998) <span class="ann">· chapters on market structure</span> · <span class="tag">HBS case</span>The Robin Hood Army (119007) <span class="ann">· a volunteer-run "business" with no money — tests what really makes an organization work</span> · <span class="tag">article</span>Investopedia — <em>Public vs. Private Sector</em></div>
           </div>
         </div>
 
@@ -189,56 +313,104 @@
         <div class="module" id="m2">
           <div class="module-head"><h3>Module 2 — Strategic Thinking &amp; Tools</h3><span class="span">Sessions 3–10</span></div>
           <p class="module-desc">Strategy fundamentals; SWOT, PESTEL, Porter's Five Forces; Lean Startup &amp; Business Model Canvas; Blue Ocean &amp; AI.</p>
+          <div class="module-overview">
+            <p>The analytical core of the course. You learn what strategy is, the standard toolkit for diagnosing a
+              business and its environment, and the modern frameworks for designing and iterating a business model —
+              then apply them in Groupwork 1 and the half-term exam.</p>
+            <div class="lo-label">By the end of this module you can</div>
+            <ul>
+              <li>Define strategy and distinguish corporate, business and functional levels.</li>
+              <li>Run a SWOT, PESTEL and Five Forces analysis on a real company and read the results together.</li>
+              <li>Design a business model on the Canvas, validate it Lean-Startup style, and pursue value innovation (Blue Ocean).</li>
+              <li>Map a value chain and use life-cycle / portfolio (BCG) frameworks to choose growth strategies.</li>
+            </ul>
+          </div>
           <div class="session">
             <div class="s-no">SESSION 3</div>
             <div class="s-title">Strategy Basics: What is Strategy?</div>
             <p class="s-obj">Introduce strategic thinking and the role of strategy in business success.</p>
-            <ul><li>Definitions &amp; types; competitive advantage and positioning</li><li>Corporate, business and functional strategies</li></ul>
-            <div class="reads"><span class="tag">tutorial</span>Industry Evolution · Disruptive Change · Strategy Archetypes</div>
+            <ul>
+              <li><b>What strategy is</b> — a coherent set of choices about <em>where to compete and how to win</em>; not the same as operational effectiveness (doing the same things better).</li>
+              <li><b>Competitive advantage &amp; positioning</b> — a sustainable edge comes from either lower cost or differentiation that customers value and rivals can't easily copy.</li>
+              <li><b>Levels of strategy</b> — <em>corporate</em> (which businesses to be in), <em>business</em> (how to compete in one market), <em>functional</em> (how each department supports the plan).</li>
+            </ul>
+            <div class="keyidea"><b>Key idea (Porter):</b> "Strategy is choosing what <em>not</em> to do." A position you can't trade off against is what makes advantage defensible.</div>
+            <div class="reads"><span class="tag">tutorial</span>IE technical notes — <em>What is Strategy?</em> (STR020210), <em>Industry Evolution</em> (STR020221), <em>Disruptive Change</em> (STR020236), <em>Strategy Archetypes</em> (STR020235) <span class="ann">· short video primers on the building blocks above</span></div>
           </div>
           <div class="session">
             <div class="s-no">SESSION 4</div>
             <div class="s-title">SWOT, PESTEL &amp; Porter's Five Forces</div>
             <p class="s-obj">Learn strategic analysis frameworks for diagnosing businesses.</p>
-            <ul><li>SWOT; PESTEL macro-environmental analysis</li><li>Five Forces: rivalry, supplier/buyer power, substitutes, new entrants</li></ul>
-            <div class="reads"><span class="tag">demo</span>Five forces · SWOT decision (home page) · <span class="tag">HBS</span>Strengths Really Weaknesses?</div>
+            <ul>
+              <li><b>SWOT</b> — internal <em>Strengths/Weaknesses</em> and external <em>Opportunities/Threats</em>; a quick synthesis grid, best used to <em>match</em> strengths to opportunities.</li>
+              <li><b>PESTEL</b> — scans the macro-environment along six axes: <span class="formula">Political · Economic · Social · Technological · Environmental · Legal</span>.</li>
+              <li><b>Porter's Five Forces</b> — industry attractiveness from <em>rivalry, supplier power, buyer power, threat of substitutes, threat of new entrants</em>. The weaker these forces, the more profit the industry can sustain.</li>
+            </ul>
+            <div class="keyidea"><b>Key idea:</b> SWOT/PESTEL describe the situation; Five Forces explains <em>why</em> the industry is (un)profitable — use them together, outside-in.</div>
+            <div class="reads"><span class="tag">demo</span>Five forces · SWOT decision (home page) <span class="ann">· interactive versions of these grids</span> · <span class="tag">HBS</span>Are Your Company's Strengths Really Weaknesses? (H054I3) · <span class="tag">article</span>Smart Insights — Porter's 5 Forces · B2U — PESTEL · Mind Tools — SWOT</div>
           </div>
           <div class="session">
             <div class="s-no">SESSION 5</div>
             <div class="s-title">Blue Ocean Strategy + AI &amp; Strategic Advantage</div>
             <p class="s-obj">Innovation-driven strategy and the role of AI in strategic positioning.</p>
-            <ul><li>Value innovation; eliminate-reduce-raise-create grid</li><li>Red vs blue ocean markets; AI for data-driven advantage</li></ul>
-            <div class="reads"><span class="tag">book</span>Kim &amp; Mauborgne, <em>Blue Ocean Strategy</em> · <span class="tag">HBR</span>AI-Powered Strategy</div>
+            <ul>
+              <li><b>Value innovation</b> — break the cost/differentiation trade-off by raising buyer value <em>and</em> lowering cost at the same time.</li>
+              <li><b>Eliminate–Reduce–Raise–Create (ERRC) grid</b> — the practical tool: which factors to drop, dial down, dial up, or invent to open uncontested market space.</li>
+              <li><b>Red vs blue oceans</b> — red = fight over existing demand; blue = create new demand. <b>AI for advantage</b> — machine learning as a data-driven moat in prediction, personalization and automation.</li>
+            </ul>
+            <div class="keyidea"><b>Example:</b> Cirque du Soleil eliminated animals/star performers (cost down) and created theatrical artistry (value up) — a blue ocean between circus and theatre.</div>
+            <div class="reads"><span class="tag">book</span>Kim &amp; Mauborgne, <em>Blue Ocean Strategy</em> (selected chapters) <span class="ann">· value innovation &amp; the ERRC grid</span> · <span class="tag">HBR</span>AI-Powered Strategy: How Companies Use Machine Learning to Compete <span class="ann">· ML as competitive weapon</span></div>
           </div>
           <div class="session">
             <div class="s-no">SESSION 6</div>
             <div class="s-title">Business Model Canvas + Lean Startup</div>
             <p class="s-obj">Understand how to design and iterate business models.</p>
-            <ul><li>BMC components; Lean Startup methodology &amp; MVPs</li><li>Iteration and pivoting in startups</li></ul>
-            <div class="reads"><span class="tag">Strategyzer</span>BMC Explained · <span class="tag">book</span>Ries, <em>The Lean Startup</em> · Dropbox MVP</div>
+            <ul>
+              <li><b>Business Model Canvas</b> — one page, nine blocks: <em>customer segments, value propositions, channels, customer relationships, revenue streams, key resources, key activities, key partnerships, cost structure.</em></li>
+              <li><b>Lean Startup &amp; MVP</b> — build the smallest thing that tests your riskiest assumption, measure, learn, repeat (the <em>Build–Measure–Learn</em> loop).</li>
+              <li><b>Iteration &amp; pivoting</b> — change one element of the model when evidence says the current bet is wrong, without abandoning the vision.</li>
+            </ul>
+            <div class="keyidea"><b>Example:</b> Dropbox's MVP was a 3-minute demo video, not working software — it validated demand before a line of sync code was finished.</div>
+            <div class="reads"><span class="tag">Strategyzer</span>Business Model Canvas Explained <span class="ann">· the nine blocks in detail</span> · <span class="tag">book</span>Eric Ries, <em>The Lean Startup</em> (selected chapters) · <span class="tag">case</span>Dropbox MVP</div>
           </div>
           <div class="session">
             <div class="s-no">SESSION 7</div>
             <div class="s-title">Value Chain &amp; Business Process Mapping</div>
             <p class="s-obj">Understand internal operations and how businesses create value.</p>
-            <ul><li>Porter's Value Chain: primary &amp; support activities</li><li>Cost drivers, differentiation; process modelling &amp; re-engineering</li></ul>
-            <div class="reads"><span class="tag">book</span>Porter, <em>Competitive Advantage</em> · <span class="tag">HubSpot</span>Value Chain Analysis</div>
+            <ul>
+              <li><b>Porter's Value Chain</b> — <em>primary</em> activities (inbound logistics, operations, outbound logistics, marketing &amp; sales, service) and <em>support</em> activities (firm infrastructure, HR, technology, procurement) that together produce margin.</li>
+              <li><b>Cost drivers &amp; differentiation</b> — find where in the chain you can be cheaper, or distinctively better, than rivals.</li>
+              <li><b>Business process modelling &amp; re-engineering</b> — map how work actually flows, then redesign it (often with software/automation) to cut waste.</li>
+            </ul>
+            <div class="keyidea"><b>Key idea:</b> <span class="formula">Margin = Value to buyer − Total cost of all chain activities</span>; advantage is built activity by activity, not in the abstract.</div>
+            <div class="reads"><span class="tag">book</span>Porter, <em>Competitive Advantage</em> (1985, Ch.1) <span class="ann">· the original value-chain framework</span> · <span class="tag">HubSpot</span>The Straightforward Guide to Value Chain Analysis · <span class="tag">video</span>Porter's Value Chain (YouTube)</div>
           </div>
           <div class="session">
             <div class="s-no">SESSION 8</div>
             <div class="s-title">Product Life Cycle, BCG Matrix &amp; Growth Strategies</div>
             <p class="s-obj">Analyze products and units using life-cycle and portfolio planning frameworks.</p>
-            <ul><li>PLC phases; BCG matrix: Stars, Cash Cows, Question Marks, Dogs</li><li>Growth: market penetration, product development, diversification</li></ul>
-            <div class="reads"><span class="tag">demo</span>Life cycle · BCG matrix (home page) · <span class="tag">BCG</span>Growth-Share Matrix</div>
+            <ul>
+              <li><b>Product Life Cycle (PLC)</b> — <em>introduction → growth → maturity → decline</em>; each phase needs different pricing, marketing and investment.</li>
+              <li><b>BCG Growth–Share Matrix</b> — classify units on market growth × relative share: <em>Stars</em> (high/high), <em>Cash Cows</em> (low growth/high share), <em>Question Marks</em> (high growth/low share), <em>Dogs</em> (low/low). Cash cows fund stars and question marks.</li>
+              <li><b>Growth strategies (Ansoff)</b> — market penetration, market development, product development, diversification. <b>Economies of scale</b> lower unit cost as volume grows.</li>
+            </ul>
+            <div class="keyidea"><b>Key idea:</b> manage a <em>portfolio</em>, not a product — milk cash cows, back the stars, fix-or-sell dogs, and bet selectively on question marks.</div>
+            <div class="reads"><span class="tag">demo</span>Life cycle · BCG matrix (home page) <span class="ann">· interactive PLC &amp; growth-share visualisers</span> · <span class="tag">BCG</span>What Is the Growth-Share Matrix? · <span class="tag">tutorial</span>IE notes — Life Cycle (STR020214), Economies of Scale (STR020217)</div>
           </div>
           <div class="session milestone">
             <div class="s-no">SESSION 9 · milestone</div>
             <div class="s-title">Groupwork 1 — Business Model presentations</div>
             <p class="s-obj">Present and defend a business-model proposal; peer and instructor feedback.</p>
+            <ul>
+              <li><b>Team presentations</b> of a Business Model Canvas built with the Module 2 toolkit.</li>
+              <li><b>Peer &amp; instructor feedback</b> on coherence, market logic and feasibility.</li>
+              <li><b>Reflection</b> on the modelling process — what you'd pivot and why.</li>
+            </ul>
           </div>
           <div class="session milestone">
             <div class="s-no">SESSION 10 · milestone</div>
             <div class="s-title">Half-Term Exam</div>
+            <p class="s-obj">Mid-course assessment of strategy fundamentals and the analytical toolkit from Modules 1–2.</p>
           </div>
         </div>
 
@@ -246,40 +418,77 @@
         <div class="module" id="m3">
           <div class="module-head"><h3>Module 3 — Organizational Design, Leadership &amp; Governance</h3><span class="span">Sessions 11–15</span></div>
           <p class="module-desc">Corporate governance, strategy implementation &amp; the 7-S model, structures, culture &amp; responsible AI, leadership.</p>
+          <div class="module-overview">
+            <p>Strategy only matters if it is implemented. This module moves from "what to do" to "how to organize and
+              lead to actually do it" — governance at the top, structure and culture in the middle, and motivation and
+              decision-making at the human level.</p>
+            <div class="lo-label">By the end of this module you can</div>
+            <ul>
+              <li>Explain corporate governance and the board–CEO–shareholder relationship.</li>
+              <li>Use the 7-S model and a balanced scorecard to align and measure strategy execution.</li>
+              <li>Choose an organizational structure and read a company's culture (incl. Hofstede's dimensions).</li>
+              <li>Apply leadership styles and motivation theories, and weigh rational vs intuitive decisions — including responsible-AI concerns.</li>
+            </ul>
+          </div>
           <div class="session">
             <div class="s-no">SESSION 11</div>
             <div class="s-title">Governance, Board &amp; CEO Roles</div>
-            <p class="s-obj">Fundamentals of corporate governance and how board/CEO relationships shape strategic direction.</p>
-            <ul><li>Board responsibilities; CEO–board–shareholder relationship</li></ul>
-            <div class="reads"><span class="tag">PwC</span>The Governance Divide · <span class="tag">HBR</span>Role of Boards in Startups</div>
+            <p class="s-obj">Fundamentals of corporate governance and how board/CEO relationships shape strategic direction and accountability.</p>
+            <ul>
+              <li><b>Corporate governance fundamentals</b> — the system of rules and incentives by which a company is directed and held accountable to its owners.</li>
+              <li><b>Responsibilities of the Board</b> — set strategy direction, hire/oversee the CEO, ensure controls and ethics.</li>
+              <li><b>CEO–Board–shareholder relationship</b> — the agency problem: aligning managers' incentives with owners' interests.</li>
+            </ul>
+            <div class="keyidea"><b>Key idea:</b> good governance separates <em>oversight</em> (board) from <em>execution</em> (management) so neither captures the other.</div>
+            <div class="reads"><span class="tag">PwC</span>The Governance Divide — Boards and Investors in a Shifting World (2017 Directors Survey) <span class="ann">· board–investor expectation gaps</span> · <span class="tag">HBR</span>Role of Boards in Startups <span class="ann">· optional short reading</span></div>
           </div>
           <div class="session">
             <div class="s-no">SESSION 12</div>
             <div class="s-title">Strategy Implementation, Strategic Direction &amp; the 7-S Model</div>
             <p class="s-obj">Translate strategy into action by aligning purpose, leadership, systems and structure.</p>
-            <ul><li>Purpose, vision, values, goals; McKinsey 7-S framework</li><li>Strategic management in dynamic environments</li></ul>
-            <div class="reads"><span class="tag">HBS</span>Balanced Scorecard · <span class="tag">McKinsey</span>7-S Framework</div>
+            <ul>
+              <li><b>Strategic direction</b> — defining purpose, vision, values and goals that give the organization a north star.</li>
+              <li><b>McKinsey 7-S</b> — align seven elements: <span class="formula">Strategy · Structure · Systems · Shared values · Style · Staff · Skills</span>. The "hard" three plus four "soft" elements must reinforce each other.</li>
+              <li><b>Strategic management in dynamic environments</b> — and measuring it with a <em>Balanced Scorecard</em> (financial, customer, internal-process, learning perspectives).</li>
+            </ul>
+            <div class="keyidea"><b>Key idea:</b> most strategies fail in execution, not formulation — misalignment among the 7 S's is the usual culprit.</div>
+            <div class="reads"><span class="tag">HBS</span>The Balanced Scorecard: Measures That Drive Performance (R0507Q) <span class="ann">· balancing financial &amp; non-financial metrics</span> · <span class="tag">McKinsey</span>The 7-S Framework: A Tool for Strategy Execution · <span class="tag">SmartSheet</span>Definitive Guide to Business Decision-Making</div>
           </div>
           <div class="session">
             <div class="s-no">SESSION 13</div>
             <div class="s-title">Organizational Structures</div>
             <p class="s-obj">Understand how organizations are structured to align strategy and execution.</p>
-            <ul><li>Functional, divisional, matrix; team-based &amp; networked organizations</li><li>Advantages &amp; challenges of each model</li></ul>
-            <div class="reads"><span class="tag">HBS</span>Note on Organizational Structure</div>
+            <ul>
+              <li><b>Functional</b> (grouped by skill — efficient, but siloed), <b>divisional</b> (by product/region — accountable, but duplicative), <b>matrix</b> (dual reporting — flexible, but ambiguous).</li>
+              <li><b>Team-based &amp; networked organizations</b> — flatter, project-driven forms common in tech and platform firms.</li>
+              <li><b>Trade-offs</b> — every structure optimises something (speed, control, cost) at the expense of another.</li>
+            </ul>
+            <div class="keyidea"><b>Key idea:</b> "structure follows strategy" — the right org chart is the one that makes your chosen way of winning easy to execute.</div>
+            <div class="reads"><span class="tag">HBS</span>Note on Organizational Structure (491083) <span class="ann">· classic technical note comparing the structural forms above</span></div>
           </div>
           <div class="session">
             <div class="s-no">SESSION 14</div>
             <div class="s-title">Ethics, Culture &amp; Responsible AI</div>
             <p class="s-obj">Cultural and ethical responsibilities in global and tech-intensive environments.</p>
-            <ul><li>Organizational culture &amp; Hofstede's dimensions</li><li>Ethics in management; responsible AI: bias, transparency, accountability</li></ul>
-            <div class="reads"><span class="tag">Hofstede</span>6-D model · <span class="tag">WEF</span>Responsible AI Principles</div>
+            <ul>
+              <li><b>Organizational culture &amp; Hofstede's 6-D model</b> — culture as "the way we do things here", compared across nations on dimensions like power distance, individualism and uncertainty avoidance.</li>
+              <li><b>Ethics in management &amp; leadership</b> — doing right by stakeholders, not only what's legal.</li>
+              <li><b>Responsible AI</b> — managing <em>bias, transparency and accountability</em> in systems that make or inform decisions.</li>
+            </ul>
+            <div class="keyidea"><b>Key idea:</b> for an AI/CS audience, "responsible AI" is a management problem as much as a technical one — who is accountable when a model is wrong?</div>
+            <div class="reads"><span class="tag">Hofstede</span>The 6-D Model of National Culture · <span class="tag">article</span>Models of Intercultural Communication (SAGE Open, 2015) <span class="ann">· cross-cultural identity &amp; acculturation</span> · <span class="tag">WEF</span>Responsible AI: Principles for AI Development</div>
           </div>
           <div class="session">
             <div class="s-no">SESSION 15</div>
             <div class="s-title">Leadership, Motivation &amp; Decision-Making</div>
             <p class="s-obj">The human side of management and effective leadership.</p>
-            <ul><li>Leadership styles; motivation: Maslow, Herzberg, McClelland</li><li>Rational vs intuitive decision-making</li></ul>
-            <div class="reads"><span class="tag">HBS</span>The Coherence Premium · <span class="tag">case</span>Irizar in 2005</div>
+            <ul>
+              <li><b>Leadership styles &amp; effectiveness</b> — situational fit matters more than one "best" style.</li>
+              <li><b>Motivation theories</b> — <em>Maslow</em> (needs hierarchy), <em>Herzberg</em> (hygiene vs motivators), <em>McClelland</em> (achievement, affiliation, power).</li>
+              <li><b>Rational vs intuitive decision-making</b> — when to analyse exhaustively and when expert intuition is faster and good enough.</li>
+            </ul>
+            <div class="keyidea"><b>Key idea (Herzberg):</b> fixing "hygiene" factors (pay, conditions) removes dissatisfaction but doesn't motivate — real motivation comes from achievement and growth.</div>
+            <div class="reads"><span class="tag">HBS</span>The Coherence Premium (R1006F) <span class="ann">· aligning capabilities with strategy</span> · <span class="tag">HBS case</span>Irizar in 2005 (706424) <span class="ann">· a worker-cooperative led without traditional hierarchy</span></div>
           </div>
         </div>
 
@@ -287,54 +496,101 @@
         <div class="module" id="m4">
           <div class="module-head"><h3>Module 4 — Functional Areas of Business</h3><span class="span">Sessions 16–22</span></div>
           <p class="module-desc">Marketing, sales, R&amp;D, finance, HR, legal and IT/MIS — and how AI &amp; analytics transform each function.</p>
+          <div class="module-overview">
+            <p>A tour of the firm's functional machinery — what each department does, the key tools and metrics it uses,
+              and how data, analytics and AI are reshaping it. The recurring theme: every function is becoming
+              data-driven, and they only create value when aligned with strategy and with each other.</p>
+            <div class="lo-label">By the end of this module you can</div>
+            <ul>
+              <li>Describe the role and core metrics of marketing, sales, R&amp;D, finance, HR, legal and IT/MIS.</li>
+              <li>Read a basic income statement, balance sheet and cash flow, and compute a break-even point.</li>
+              <li>Explain how analytics/AI and systems (CRM, ERP, MIS) transform each function.</li>
+              <li>Identify the main legal/IP/data risks a tech business faces.</li>
+            </ul>
+          </div>
           <div class="session">
             <div class="s-no">SESSION 16</div>
             <div class="s-title">Marketing: Digital Channels &amp; Data</div>
             <p class="s-obj">Modern marketing practices and how digital tools transform engagement.</p>
-            <ul><li>Marketing in value creation; SEO, content, email, social</li><li>Segmentation, targeting, personalization</li></ul>
-            <div class="reads"><span class="tag">book</span>Kotler, <em>Marketing 4.0</em> · <span class="tag">Forbes</span>Future of Marketing is Personalization</div>
+            <ul>
+              <li><b>Marketing's role in value creation</b> — understanding and shaping demand, not just promotion.</li>
+              <li><b>Digital channels</b> — SEO, content, email and social, measured by funnel and engagement metrics.</li>
+              <li><b>Segmentation, targeting &amp; personalization (STP)</b> — divide the market, pick segments, tailor the offer; AI pushes this toward one-to-one personalization.</li>
+            </ul>
+            <div class="keyidea"><b>Key idea (Kotler 4.0):</b> marketing has moved from broadcast to <em>connected</em> — the customer journey is now a loop of advocacy, not a one-way funnel.</div>
+            <div class="reads"><span class="tag">book</span>Philip Kotler, <em>Marketing 4.0: Moving from Traditional to Digital</em> (2016) <span class="ann">· the digital marketing playbook</span> · <span class="tag">Forbes</span>The Future of Marketing is Personalization · <span class="tag">ref</span>American Marketing Association</div>
           </div>
           <div class="session">
             <div class="s-no">SESSION 17</div>
             <div class="s-title">Sales: Funnels, CRM &amp; KPIs</div>
             <p class="s-obj">Explore the sales process and managing it with technology.</p>
-            <ul><li>B2B vs B2C; sales funnel stages &amp; KPIs</li><li>CRM systems and sales automation</li></ul>
-            <div class="reads"><span class="tag">case</span>Salesforce &amp; the Evolution of CRM · <span class="tag">HubSpot</span>Sales Metrics That Matter</div>
+            <ul>
+              <li><b>B2B vs B2C</b> — longer, multi-stakeholder, relationship sales vs shorter, higher-volume consumer sales.</li>
+              <li><b>Sales funnel &amp; KPIs</b> — awareness → interest → decision → action; track conversion rate, pipeline, win rate, average deal size and sales cycle length.</li>
+              <li><b>CRM &amp; sales automation</b> — systems (e.g. Salesforce) that record relationships and automate follow-up.</li>
+            </ul>
+            <div class="keyidea"><b>Key idea:</b> a funnel is a conversion math problem — <span class="formula">customers = leads × conversion rate</span>; improving any stage's rate compounds downstream.</div>
+            <div class="reads"><span class="tag">case</span>Salesforce and the Evolution of CRM <span class="ann">· how CRM became a platform</span> · <span class="tag">HubSpot</span>Sales Metrics That Matter</div>
           </div>
           <div class="session">
             <div class="s-no">SESSION 18</div>
             <div class="s-title">R&amp;D: Innovation Processes in Tech</div>
             <p class="s-obj">How businesses manage research and development.</p>
-            <ul><li>Ideation, prototyping, testing; open innovation</li><li>Tech trends driving R&amp;D in AI and software</li></ul>
-            <div class="reads"><span class="tag">HBR</span>How Companies Accelerate Innovation · <span class="tag">book</span>Kelley, <em>The Art of Innovation</em></div>
+            <ul>
+              <li><b>Stages of innovation</b> — ideation → prototyping → testing, with structured gates between them.</li>
+              <li><b>Open innovation &amp; collaboration</b> — sourcing ideas from outside (partners, users, academia), not only in-house.</li>
+              <li><b>Tech trends in R&amp;D</b> — AI and software shorten cycles and enable rapid experimentation (Industry 4.0, smart agents).</li>
+            </ul>
+            <div class="keyidea"><b>Key idea (IDEO):</b> innovation is a discipline, not luck — fast, cheap prototypes "fail early" so the expensive build is the right one.</div>
+            <div class="reads"><span class="tag">HBR</span>How Companies Accelerate Innovation · <span class="tag">book</span>Kelley &amp; Littman, <em>The Art of Innovation</em> (IDEO) <span class="ann">· design-driven innovation method</span> · <span class="tag">book</span>Hoffmann, <em>Smart Agents for Industry 4.0</em></div>
           </div>
           <div class="session">
             <div class="s-no">SESSION 19</div>
             <div class="s-title">Finance: Basics, Budgeting &amp; Profitability</div>
             <p class="s-obj">Financial decision-making within organizations.</p>
-            <ul><li>Income statements, balance sheets, cash flow</li><li>Budgeting &amp; variance; profitability metrics &amp; break-even</li></ul>
-            <div class="reads"><span class="tag">demo</span>Break-even · Cost curves (home page) · <span class="tag">book</span>Abascal &amp; Aguirreamalloa, <em>Finance for Managers</em></div>
+            <ul>
+              <li><b>Three statements</b> — <em>income statement</em> (profit over a period), <em>balance sheet</em> (assets = liabilities + equity at a point in time), <em>cash flow</em> (cash in/out).</li>
+              <li><b>Budgeting &amp; variance analysis</b> — plan vs actual, and explaining the gap.</li>
+              <li><b>Profitability &amp; break-even</b> — the volume at which revenue covers all costs: <span class="formula">BEP = Fixed costs ÷ (Price − Variable cost per unit)</span>.</li>
+            </ul>
+            <div class="keyidea"><b>Key idea:</b> profit is an opinion, cash is a fact — a profitable firm can still fail if it runs out of cash.</div>
+            <div class="reads"><span class="tag">demo</span>Break-even · Cost curves (home page) <span class="ann">· interactive break-even &amp; cost visualisers</span> · <span class="tag">book</span>Abascal &amp; Aguirreamalloa, <em>Finance for Managers</em> (2012)</div>
           </div>
           <div class="session">
             <div class="s-no">SESSION 20</div>
             <div class="s-title">HR: People Analytics &amp; Talent Strategy</div>
             <p class="s-obj">The evolving role of HR in talent development and analytics.</p>
-            <ul><li>Recruitment, onboarding, retention; employee experience</li><li>HR analytics and predictive modeling</li></ul>
-            <div class="reads"><span class="tag">HBS</span>Is HR the Most Analytics-Driven Function? · <span class="tag">book</span>Fournier, <em>The Manager's Path</em></div>
+            <ul>
+              <li><b>Recruitment, onboarding &amp; retention</b> — the talent lifecycle and the cost of losing good people.</li>
+              <li><b>Employee experience &amp; performance evaluation</b> — engagement as a driver of output.</li>
+              <li><b>HR analytics &amp; predictive modeling</b> — using data to forecast attrition, hiring needs and performance.</li>
+            </ul>
+            <div class="keyidea"><b>Key idea:</b> "people analytics" reframes HR from an administrative cost centre into a data-driven, strategic function.</div>
+            <div class="reads"><span class="tag">HBS</span>Is HR the Most Analytics-Driven Function? (H04WQI) · <span class="tag">HBS case</span>Two Brothers, Two Methods: "Happiness Index" vs "Data &amp; Analytics" (SCM102) <span class="ann">· intuition vs data in managing people</span> · <span class="tag">book</span>Camille Fournier, <em>The Manager's Path</em> <span class="ann">· managing technical teams</span></div>
           </div>
           <div class="session">
             <div class="s-no">SESSION 21</div>
             <div class="s-title">Legal Aspects: IP, Data &amp; Compliance</div>
             <p class="s-obj">Legal and regulatory issues affecting businesses, especially in tech.</p>
-            <ul><li>IP: patents, trademarks, copyright; data protection &amp; GDPR</li><li>Compliance and risk management</li></ul>
-            <div class="reads"><span class="tag">HBS</span>Axiom — Law Redefined · <span class="tag">book</span>Dutfield &amp; Suthersanen, <em>Global IP Law</em></div>
+            <ul>
+              <li><b>Intellectual property</b> — <em>patents</em> (inventions), <em>trademarks</em> (brand), <em>copyright</em> (creative/code works); can you even patent a business model?</li>
+              <li><b>Data protection &amp; privacy (GDPR)</b> — legal basis, consent, data-subject rights — critical for any data/AI business.</li>
+              <li><b>Compliance &amp; risk management</b> — building processes so the firm stays within the rules.</li>
+            </ul>
+            <div class="keyidea"><b>Key idea:</b> for a software/AI firm, IP and data are often the <em>core asset</em> — protecting and lawfully using them is strategy, not paperwork.</div>
+            <div class="reads"><span class="tag">HBS case</span>Axiom — Law Redefined (IN1127) <span class="ann">· disrupting legal services</span> · <span class="tag">HBS</span>Can You Patent Your Business Model? (F00401) · <span class="tag">book</span>Dutfield &amp; Suthersanen, <em>Global Intellectual Property Law</em> (2015)</div>
           </div>
           <div class="session">
             <div class="s-no">SESSION 22</div>
             <div class="s-title">IT &amp; MIS: Enabling Business with Tech</div>
             <p class="s-obj">The strategic role of information systems in business management.</p>
-            <ul><li>MIS structure &amp; goals; IT as enabler: automation, integration, analytics</li><li>Digital infrastructure and transformation</li></ul>
-            <div class="reads"><span class="tag">book</span>Laudon &amp; Brabston, <em>Management Information Systems</em></div>
+            <ul>
+              <li><b>Management Information Systems (MIS)</b> — structure and goals: turning raw data into decisions for managers.</li>
+              <li><b>IT as enabler</b> — automation, integration (ERP) and analytics across the whole value chain.</li>
+              <li><b>Digital infrastructure &amp; transformation</b> — re-platforming the business around software and data.</li>
+            </ul>
+            <div class="keyidea"><b>Key idea:</b> IT/MIS is the connective tissue of Module 4 — it's what lets marketing, sales, finance and HR share one source of truth.</div>
+            <div class="reads"><span class="tag">book</span>Laudon &amp; Brabston, <em>Management Information Systems: Managing the Digital Firm</em> (2005) <span class="ann">· the standard MIS text</span> · <span class="tag">ref</span>Information Technology Industry Council (ITIC)</div>
           </div>
         </div>
 
@@ -342,33 +598,66 @@
         <div class="module" id="m5">
           <div class="module-head"><h3>Module 5 — Digital Transformation &amp; Globalization</h3><span class="span">Sessions 23–26</span></div>
           <p class="module-desc">Scaling tech businesses, platform &amp; SaaS economics, the gig economy, internationalization and the investor pitch.</p>
+          <div class="module-overview">
+            <p>How modern tech firms grow: the economics of scaling and SaaS, platform and gig-economy models, and going
+              international — then how to package it all into a business plan and pitch it to investors. This module
+              feeds directly into Groupwork 2.</p>
+            <div class="lo-label">By the end of this module you can</div>
+            <ul>
+              <li>Distinguish growth from scaling and reason about SaaS unit economics and product-market fit.</li>
+              <li>Compare platform, subscription and gig-economy business models.</li>
+              <li>Choose an international entry mode given risk and resources.</li>
+              <li>Structure and deliver a persuasive investor pitch.</li>
+            </ul>
+          </div>
           <div class="session">
             <div class="s-no">SESSION 23</div>
             <div class="s-title">Scaling Businesses (SaaS, Product-Market Fit)</div>
             <p class="s-obj">How startups and tech firms manage rapid growth.</p>
-            <ul><li>Growth vs scaling; SaaS unit economics &amp; customer lifecycle</li><li>Achieving product-market fit</li></ul>
-            <div class="reads"><span class="tag">demo</span>SaaS growth (home page) · <span class="tag">book</span>Croll &amp; Yoskovitz, <em>Lean Analytics</em></div>
+            <ul>
+              <li><b>Growth vs scaling</b> — growth adds revenue <em>and</em> cost proportionally; scaling adds revenue much faster than cost.</li>
+              <li><b>SaaS unit economics</b> — the customer lifecycle measured by <span class="formula">CAC</span> (acquisition cost), <span class="formula">LTV</span> (lifetime value), churn and MRR; a healthy SaaS aims for <span class="formula">LTV/CAC &gt; 3</span>.</li>
+              <li><b>Product-market fit</b> — the point where the market pulls the product out of you; scale only after it's reached.</li>
+            </ul>
+            <div class="keyidea"><b>Key idea:</b> scaling before product-market fit just makes you lose money faster — fit first, then pour fuel on the fire.</div>
+            <div class="reads"><span class="tag">demo</span>SaaS growth (home page) <span class="ann">· interactive MRR/churn model</span> · <span class="tag">book</span>Croll &amp; Yoskovitz, <em>Lean Analytics</em> (Metrics That Matter) · <span class="tag">article</span>TechCrunch — Growth vs. Scaling</div>
           </div>
           <div class="session">
             <div class="s-no">SESSION 24</div>
             <div class="s-title">Platforms, Subscriptions &amp; the Gig Economy</div>
             <p class="s-obj">New business models and how technology enables decentralized participation.</p>
-            <ul><li>Subscription &amp; SaaS models; the gig economy</li></ul>
-            <div class="reads"><span class="tag">case</span>Uber / Airbnb / Spotify · <span class="tag">Deloitte</span>Rise of the Platform Economy</div>
+            <ul>
+              <li><b>Subscription &amp; SaaS models</b> — recurring revenue and the shift from owning to accessing.</li>
+              <li><b>Platform / network-effects models</b> — value rises as more participants join both sides of a marketplace.</li>
+              <li><b>The gig economy</b> — flexibility and scalability for firms, with labour and regulatory challenges.</li>
+            </ul>
+            <div class="keyidea"><b>Key idea:</b> platforms win on <em>network effects</em> — the product gets more valuable to each user as the user base grows, creating winner-take-most dynamics.</div>
+            <div class="reads"><span class="tag">case</span>Uber / Airbnb / Spotify business-model comparison · <span class="tag">Deloitte</span>The Rise of the Platform Economy · <span class="tag">Forbes</span>Services Are Eating Software</div>
           </div>
           <div class="session">
             <div class="s-no">SESSION 25</div>
             <div class="s-title">Internationalization &amp; Global Strategy</div>
             <p class="s-obj">How businesses scale globally and tailor strategy for international markets.</p>
-            <ul><li>Exporting, franchising, joint ventures, subsidiaries</li><li>Risk &amp; complexity; entry modes and positioning abroad</li></ul>
-            <div class="reads"><span class="tag">tutorial</span>Internationalization Strategies · <span class="tag">BCG</span>When Asset Light Is Right</div>
+            <ul>
+              <li><b>Entry modes</b> — exporting (low commitment/risk) → franchising → joint ventures → wholly-owned subsidiaries (high commitment/control).</li>
+              <li><b>Risk &amp; complexity</b> — currency, regulation, culture and coordination costs rise with commitment.</li>
+              <li><b>Positioning abroad</b> — how much to standardise globally vs adapt locally ("asset-light" vs heavy presence).</li>
+            </ul>
+            <div class="keyidea"><b>Key idea:</b> entry mode is a trade-off between <em>control</em> and <em>risk/commitment</em> — pick the lightest mode that still secures your advantage.</div>
+            <div class="reads"><span class="tag">tutorial</span>IE note — Internationalization Strategies (STR020233) · <span class="tag">BCG</span>When Asset Light Is Right <span class="ann">· when to expand without owning assets</span></div>
           </div>
           <div class="session">
             <div class="s-no">SESSION 26</div>
             <div class="s-title">Business Plan &amp; Pitching Skills Workshop</div>
             <p class="s-obj">Structure a compelling business plan and communicate it through a professional investor pitch.</p>
-            <ul><li>Plan components: opportunity, execution, financials, risk</li><li>Persuasive pitch (11-slide model); 2-minute elevator pitch workshop</li></ul>
-            <div class="reads"><span class="tag">Sequoia</span>10-Slide Pitch Deck · <span class="tag">video</span>Guy Kawasaki — Art of the Pitch</div>
+            <ul>
+              <li><b>Plan components</b> — opportunity, execution, financials and risk.</li>
+              <li><b>Formats</b> — executive summary, full plan, and pitch deck (the right artefact for the right audience).</li>
+              <li><b>Persuasive pitch</b> — an 11-slide model, storytelling and a clear call to action.</li>
+              <li><b>Workshop</b> — teams refine and practise a 2-minute elevator pitch / key slides, with in-class mini-pitch and peer feedback.</li>
+            </ul>
+            <div class="keyidea"><b>Key idea (Kawasaki):</b> a pitch sells the <em>meeting</em>, not the company — make them want to learn more, don't dump every detail.</div>
+            <div class="reads"><span class="tag">Sequoia</span>10-Slide Pitch Deck Template <span class="ann">· the canonical deck structure</span> · <span class="tag">video</span>Guy Kawasaki — The Art of the Pitch · <span class="tag">HBS</span>Create an Effective Presentation</div>
           </div>
         </div>
 
@@ -376,11 +665,104 @@
         <div class="module" id="m6">
           <div class="module-head"><h3>Final Wrap-up</h3><span class="span">Sessions 27–30</span></div>
           <p class="module-desc">Industry masterclass, course closure, final group presentations and the final exam.</p>
-          <div class="session"><div class="s-no">SESSION 27</div><div class="s-title">Masterclass — How technology &amp; AI create competitive advantage</div><p class="s-obj">Learn from an executive how their company uses technology and AI for competitive advantage.</p></div>
-          <div class="session"><div class="s-no">SESSION 28</div><div class="s-title">Course Wrap-Up</div></div>
-          <div class="session milestone"><div class="s-no">SESSION 29 · milestone</div><div class="s-title">Groupwork 2 — Business Plan presentations</div></div>
-          <div class="session milestone"><div class="s-no">SESSION 30 · milestone</div><div class="s-title">Final Exam</div></div>
+          <div class="module-overview">
+            <p>The synthesis stretch: a guest executive shows how AI creates competitive advantage in practice, the
+              course is tied together, teams deliver their full business plans, and the comprehensive final exam is sat.</p>
+          </div>
+          <div class="session">
+            <div class="s-no">SESSION 27</div>
+            <div class="s-title">Masterclass — How technology &amp; AI create competitive advantage</div>
+            <p class="s-obj">Learn from an executive how their company uses technology and AI for competitive advantage.</p>
+            <ul><li>A real-world case from industry tying together strategy (M2), execution (M3), functions (M4) and scaling (M5) — seen through the AI lens that runs across the whole course.</li></ul>
+          </div>
+          <div class="session">
+            <div class="s-no">SESSION 28</div>
+            <div class="s-title">Course Wrap-Up</div>
+            <p class="s-obj">Consolidate the course's frameworks and connect them into a single mental model of the firm.</p>
+          </div>
+          <div class="session milestone">
+            <div class="s-no">SESSION 29 · milestone</div>
+            <div class="s-title">Groupwork 2 — Business Plan presentations</div>
+            <p class="s-obj">Teams present a complete business plan with pitching, peer reviews and feedback (counts toward group-assignment grade).</p>
+          </div>
+          <div class="session milestone">
+            <div class="s-no">SESSION 30 · milestone</div>
+            <div class="s-title">Final Exam</div>
+            <p class="s-obj">Comprehensive individual exam — essay and semi-structured questions; min. 40% required to pass the course.</p>
+          </div>
         </div>
+      </section>
+
+      <!-- KEY CONCEPTS / GLOSSARY -->
+      <section class="demo" id="glossary">
+        <h2>Key concepts — glossary</h2>
+        <p class="cap">Core terms that recur across the course, defined briefly. Use this as a revision checklist.</p>
+        <div class="glossary">
+          <div class="term"><div class="t">Business model</div><div class="d">How a firm creates, delivers and captures value — often mapped on the nine-block Business Model Canvas. (S6)</div></div>
+          <div class="term"><div class="t">Strategy</div><div class="d">A coherent set of choices about where to compete and how to win; explicitly includes what <em>not</em> to do. (S3)</div></div>
+          <div class="term"><div class="t">Competitive advantage</div><div class="d">A sustainable edge over rivals, built on lower cost or valued differentiation that is hard to copy. (S3, S7)</div></div>
+          <div class="term"><div class="t">Market structure</div><div class="d">The competitive shape of a market — perfect competition, monopoly or oligopoly — which sets a firm's pricing power. (S2)</div></div>
+          <div class="term"><div class="t">SWOT</div><div class="d">A synthesis grid of internal Strengths/Weaknesses and external Opportunities/Threats. (S4)</div></div>
+          <div class="term"><div class="t">PESTEL</div><div class="d">Macro-environment scan across Political, Economic, Social, Technological, Environmental and Legal factors. (S4)</div></div>
+          <div class="term"><div class="t">Porter's Five Forces</div><div class="d">Industry attractiveness from rivalry, supplier power, buyer power, substitutes and new entrants. (S4)</div></div>
+          <div class="term"><div class="t">Value chain</div><div class="d">The set of primary and support activities through which a firm creates margin. (S7)</div></div>
+          <div class="term"><div class="t">Blue Ocean / value innovation</div><div class="d">Creating uncontested market space by raising buyer value and lowering cost together (ERRC grid). (S5)</div></div>
+          <div class="term"><div class="t">Lean Startup / MVP</div><div class="d">Validate a business idea via Build–Measure–Learn loops and a minimum viable product before scaling. (S6)</div></div>
+          <div class="term"><div class="t">Product Life Cycle</div><div class="d">The arc of a product through introduction, growth, maturity and decline, each needing different tactics. (S8)</div></div>
+          <div class="term"><div class="t">BCG matrix</div><div class="d">Portfolio map (growth × share) sorting units into Stars, Cash Cows, Question Marks and Dogs. (S8)</div></div>
+          <div class="term"><div class="t">Economies of scale</div><div class="d">Falling unit cost as production volume rises — a key cost-advantage source. (S8)</div></div>
+          <div class="term"><div class="t">Corporate governance</div><div class="d">The system of rules and incentives directing a company and holding management accountable to owners. (S11)</div></div>
+          <div class="term"><div class="t">McKinsey 7-S</div><div class="d">Alignment model of Strategy, Structure, Systems, Shared values, Style, Staff and Skills for execution. (S12)</div></div>
+          <div class="term"><div class="t">Balanced Scorecard</div><div class="d">Performance system balancing financial, customer, internal-process and learning measures. (S12)</div></div>
+          <div class="term"><div class="t">Organizational structure</div><div class="d">How work is grouped — functional, divisional, matrix, team-based or networked. (S13)</div></div>
+          <div class="term"><div class="t">Responsible AI</div><div class="d">Managing bias, transparency and accountability in AI-driven decisions. (S14)</div></div>
+          <div class="term"><div class="t">Break-even point</div><div class="d">Sales volume where revenue equals total cost: fixed costs ÷ (price − variable cost per unit). (S19)</div></div>
+          <div class="term"><div class="t">CRM</div><div class="d">Customer Relationship Management systems that record relationships and automate the sales funnel. (S17)</div></div>
+          <div class="term"><div class="t">Segmentation, targeting, positioning</div><div class="d">Divide the market, pick segments, and tailor the offer (STP) — increasingly AI-personalised. (S16)</div></div>
+          <div class="term"><div class="t">SaaS unit economics</div><div class="d">Health of a subscription business via CAC, LTV, churn and MRR (target LTV/CAC &gt; 3). (S23)</div></div>
+          <div class="term"><div class="t">Product-market fit</div><div class="d">The point where a market strongly pulls the product, signalling it's safe to scale. (S23)</div></div>
+          <div class="term"><div class="t">Network effects</div><div class="d">Value of a platform grows as more users join, driving winner-take-most outcomes. (S24)</div></div>
+          <div class="term"><div class="t">Entry mode</div><div class="d">How a firm enters a foreign market — exporting, franchising, JV or subsidiary — trading control vs risk. (S25)</div></div>
+          <div class="term"><div class="t">Pitch deck</div><div class="d">Concise investor presentation (≈10–11 slides) that sells the next meeting, not every detail. (S26)</div></div>
+        </div>
+      </section>
+
+      <!-- ANNOTATED BIBLIOGRAPHY -->
+      <section class="demo" id="biblio">
+        <h2>Annotated bibliography</h2>
+        <p class="cap">The course's named books, cases, technical notes and articles, each with a one-line note on what it
+          covers and the sessions it supports.</p>
+        <ul class="biblio">
+          <li><span class="cite">Samuelson, P. &amp; Nordhaus, W. — <em>Economics</em> / <em>Microeconomics</em> (McGraw-Hill).</span><span class="ann">Standard intro-economics reference for economic systems and market structures. <span class="sx">S1, S2</span></span></li>
+          <li><span class="cite">Mann, Geoff (2019) — <em>In the Long Run We Are All Dead</em>.</span><span class="ann">Keynesianism, political economy and revolution — context for the role of business in society. <span class="sx">S1</span></span></li>
+          <li><span class="cite">Bain &amp; Company — <em>3,000 Years of Business History in Two Minutes</em>.</span><span class="ann">Visual sweep of business eras from pre-industrial to digital. <span class="sx">S1</span></span></li>
+          <li><span class="cite">HBS Case 119007 — <em>The Robin Hood Army</em>.</span><span class="ann">A moneyless, volunteer-run organization — probes what truly makes an organization function. <span class="sx">S2</span></span></li>
+          <li><span class="cite">IE Technical Notes (video) — <em>What is Strategy?</em> (STR020210), <em>Industry Evolution</em> (STR020221), <em>Disruptive Change</em> (STR020236), <em>Strategy Archetypes</em> (STR020235).</span><span class="ann">Short primers on strategy fundamentals. <span class="sx">S3</span></span></li>
+          <li><span class="cite">HBS H054I3 — <em>Are Your Company's Strengths Really Weaknesses?</em></span><span class="ann">Critical take on SWOT; pairs with the analysis-frameworks session. <span class="sx">S4</span></span></li>
+          <li><span class="cite">Smart Insights / B2U / Mind Tools — Five Forces, PESTEL &amp; SWOT how-tos.</span><span class="ann">Practical guides for running each diagnostic framework. <span class="sx">S4</span></span></li>
+          <li><span class="cite">Kim, W. C. &amp; Mauborgne, R. — <em>Blue Ocean Strategy</em> (selected chapters).</span><span class="ann">Value innovation and the Eliminate-Reduce-Raise-Create grid. <span class="sx">S5</span></span></li>
+          <li><span class="cite">HBR — <em>AI-Powered Strategy: How Companies Use Machine Learning to Compete</em>.</span><span class="ann">ML as a source of data-driven competitive advantage. <span class="sx">S5</span></span></li>
+          <li><span class="cite">Strategyzer — <em>Business Model Canvas Explained</em>; Ries, E. — <em>The Lean Startup</em>; Dropbox MVP case.</span><span class="ann">Designing, validating and iterating business models. <span class="sx">S6</span></span></li>
+          <li><span class="cite">Porter, M. (1985) — <em>Competitive Advantage</em> (Ch. 1).</span><span class="ann">The original value-chain framework and sources of advantage. <span class="sx">S7</span></span></li>
+          <li><span class="cite">HubSpot — <em>Value Chain Analysis</em>; YouTube — Porter's Value Chain.</span><span class="ann">Applied value-chain analysis. <span class="sx">S7</span></span></li>
+          <li><span class="cite">BCG — <em>What Is the Growth-Share Matrix?</em>; IE notes — Life Cycle (STR020214), Economies of Scale (STR020217).</span><span class="ann">Portfolio planning, product life cycle and scale economics. <span class="sx">S8</span></span></li>
+          <li><span class="cite">PwC Governance Insights Center — <em>The Governance Divide</em> (2017 Directors Survey); HBR — <em>Role of Boards in Startups</em>.</span><span class="ann">Board responsibilities and board–investor relations. <span class="sx">S11</span></span></li>
+          <li><span class="cite">HBS R0507Q — <em>The Balanced Scorecard</em>; McKinsey — <em>7-S Framework</em>; SmartSheet — Decision-Making guide.</span><span class="ann">Translating and measuring strategy execution. <span class="sx">S12</span></span></li>
+          <li><span class="cite">HBS 491083 — <em>Note on Organizational Structure</em>.</span><span class="ann">Comparison of functional, divisional and matrix forms. <span class="sx">S13</span></span></li>
+          <li><span class="cite">Hofstede — <em>6-D Model of National Culture</em>; SAGE Open (2015) — Intercultural Communication; WEF — <em>Responsible AI Principles</em>.</span><span class="ann">Culture, ethics and responsible AI. <span class="sx">S14</span></span></li>
+          <li><span class="cite">HBS R1006F — <em>The Coherence Premium</em>; HBS 706424 — <em>Irizar in 2005</em>.</span><span class="ann">Leadership, coherence and a non-hierarchical cooperative model. <span class="sx">S15</span></span></li>
+          <li><span class="cite">Kotler, P. (2016) — <em>Marketing 4.0</em>; Forbes — <em>The Future of Marketing is Personalization</em>; AMA.</span><span class="ann">Digital marketing, channels and personalization. <span class="sx">S16</span></span></li>
+          <li><span class="cite">Case — <em>Salesforce and the Evolution of CRM</em>; HubSpot — <em>Sales Metrics That Matter</em>.</span><span class="ann">Sales funnels, CRM and KPIs. <span class="sx">S17</span></span></li>
+          <li><span class="cite">Kelley &amp; Littman — <em>The Art of Innovation</em> (IDEO); HBR — <em>How Companies Accelerate Innovation</em>; Hoffmann — <em>Smart Agents for Industry 4.0</em>.</span><span class="ann">R&amp;D, design thinking and innovation in tech. <span class="sx">S18</span></span></li>
+          <li><span class="cite">Abascal, E. &amp; Aguirreamalloa, X. (2012) — <em>Finance for Managers</em>.</span><span class="ann">Financial statements, budgeting and break-even. <span class="sx">S19</span></span></li>
+          <li><span class="cite">HBS H04WQI — <em>Is HR the Most Analytics-Driven Function?</em>; HBS SCM102 — <em>Two Brothers, Two Methods</em>; Fournier — <em>The Manager's Path</em>.</span><span class="ann">People analytics and talent strategy. <span class="sx">S20</span></span></li>
+          <li><span class="cite">HBS IN1127 — <em>Axiom: Law Redefined</em>; HBS F00401 — <em>Can You Patent Your Business Model?</em>; Dutfield &amp; Suthersanen (2015) — <em>Global IP Law</em>.</span><span class="ann">IP, data protection and compliance. <span class="sx">S21</span></span></li>
+          <li><span class="cite">Laudon &amp; Brabston (2005) — <em>Management Information Systems</em>; ITIC.</span><span class="ann">MIS and IT as a business enabler. <span class="sx">S22</span></span></li>
+          <li><span class="cite">Croll &amp; Yoskovitz — <em>Lean Analytics</em>; TechCrunch — <em>Growth vs. Scaling</em>.</span><span class="ann">SaaS metrics, unit economics and scaling. <span class="sx">S23</span></span></li>
+          <li><span class="cite">Deloitte — <em>The Rise of the Platform Economy</em>; Forbes — <em>Services Are Eating Software</em>; Uber/Airbnb/Spotify cases.</span><span class="ann">Platform, subscription and gig-economy models. <span class="sx">S24</span></span></li>
+          <li><span class="cite">IE note — Internationalization Strategies (STR020233); BCG — <em>When Asset Light Is Right</em>.</span><span class="ann">International entry modes and global strategy. <span class="sx">S25</span></span></li>
+          <li><span class="cite">Sequoia Capital — <em>10-Slide Pitch Deck</em>; Guy Kawasaki — <em>The Art of the Pitch</em>; HBS — <em>Create an Effective Presentation</em>.</span><span class="ann">Business-plan structure and investor pitching. <span class="sx">S26, S29</span></span></li>
+        </ul>
       </section>
     </main>
 
