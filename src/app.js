@@ -739,3 +739,95 @@ const fmt = x => Number.isFinite(x) ? Math.round(x).toLocaleString('en-US') : '�
   window.addEventListener('resize', draw);
   draw();
 })();
+
+// ============================================================
+// 11. NPV & DISCOUNTED CASH FLOW — investment appraisal
+// ============================================================
+(function npv() {
+  const cv = $('cv-npv'); if (!cv) return;
+
+  // ---- pure finance (verified: npvOf([-1000,500,500,500], 0.10) ≈ 243.43) ----
+  // Present value of one cash flow at period t (t = 0 is undiscounted).
+  const discountedFlow = (cf, r, t) => cf / Math.pow(1 + r, t);
+  // NPV of a signed cash-flow array [CF0, CF1, …] at rate r. CF0 should be negative.
+  const npvOf = (flows, r) => flows.reduce((s, cf, t) => s + discountedFlow(cf, r, t), 0);
+  // Simple (undiscounted) payback: first period where cumulative CF ≥ 0, with
+  // linear interpolation inside the recovery year. Infinity if never recovered.
+  function paybackPeriod(flows) {
+    let cum = 0;
+    for (let t = 0; t < flows.length; t++) {
+      const prev = cum;
+      cum += flows[t];
+      if (cum >= 0 && t > 0) {
+        const inYear = flows[t];
+        return inYear > 0 ? (t - 1) + (-prev) / inYear : t;
+      }
+    }
+    return Infinity;
+  }
+
+  function draw() {
+    const { ctx, w, h } = fitCanvas(cv);
+    ctx.clearRect(0, 0, w, h);
+    const C0 = clamp(n('np-c0', 100000), 0, 200000);
+    const cf = [1, 2, 3, 4].map(i => clamp(n(`np-f${i}`, 0), 0, 80000));
+    const r = clamp(n('np-r', 10), 0, 20) / 100;
+    setText('np-c0v', fmt(C0));
+    cf.forEach((v, i) => setText(`np-f${i + 1}v`, fmt(v)));
+    setText('np-rv', (r * 100).toFixed(0) + '%');
+
+    const flows = [-C0, ...cf];                       // signed series, index = period t
+    const pvInflows = npvOf([0, ...cf], r);           // present value of inflows only
+    const NPV = -C0 + pvInflows;                       // = npvOf(flows, r)
+    const pay = paybackPeriod(flows);
+    const pvByPeriod = cf.map((c, i) => discountedFlow(c, r, i + 1)); // PV of each inflow
+
+    const L = 40, RM = 16, T = 18, B = 40;
+    const pw = w - L - RM, ph = h - T - B;
+    const n4 = cf.length;
+    // shared scale for nominal (faint) and discounted (solid) bars
+    const maxBar = Math.max(...cf, 1);
+    const BY = y => T + (1 - clamp(y, 0, maxBar) / maxBar) * ph;
+    const slot = pw / n4;
+    const bw = Math.min(54, slot * 0.5);
+
+    // baseline + axis
+    ctx.strokeStyle = RULE_H; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(L, T); ctx.lineTo(L, T + ph); ctx.lineTo(L + pw, T + ph); ctx.stroke();
+
+    cf.forEach((c, i) => {
+      const cx = L + slot * (i + 0.5);
+      // nominal (undiscounted) cash flow — faint outline behind
+      ctx.fillStyle = ACCENT_S;
+      ctx.fillRect(cx - bw / 2, BY(c), bw, (T + ph) - BY(c));
+      // discounted present value — solid accent in front
+      const pv = pvByPeriod[i];
+      ctx.fillStyle = ACCENT;
+      ctx.fillRect(cx - bw / 2, BY(pv), bw, (T + ph) - BY(pv));
+      // labels
+      ctx.fillStyle = MUTED; ctx.font = '11px Inter, sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText('t=' + (i + 1), cx, T + ph + 16);
+      ctx.fillStyle = INK_S; ctx.font = '600 10px JetBrains Mono, monospace';
+      ctx.fillText(fmt(pv), cx, BY(pv) - 5);
+    });
+
+    // legend
+    ctx.textAlign = 'left'; ctx.font = '600 10px JetBrains Mono, monospace';
+    ctx.fillStyle = ACCENT; ctx.fillRect(L + 2, T + 2, 10, 10);
+    ctx.fillStyle = INK_S; ctx.fillText('discounted PV', L + 16, T + 11);
+    ctx.fillStyle = ACCENT_S; ctx.fillRect(L + 112, T + 2, 10, 10);
+    ctx.fillStyle = INK_S; ctx.fillText('nominal CF', L + 126, T + 11);
+    ctx.fillStyle = MUTED; ctx.font = '11px Inter, sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('discounted cash flow by period', L + pw / 2, h - 6);
+    ctx.textAlign = 'left';
+
+    setText('np-pv', '$' + fmt(pvInflows));
+    setText('np-pay', Number.isFinite(pay) ? pay.toFixed(1) + ' yr' : 'never');
+    $('np-pay').style.color = Number.isFinite(pay) ? INK : BAD;
+    setText('np-npv', (NPV >= 0 ? '+$' : '−$') + fmt(Math.abs(NPV)));
+    $('np-npv').style.color = NPV >= 0 ? GOOD : BAD;
+  }
+  ['np-c0', 'np-f1', 'np-f2', 'np-f3', 'np-f4', 'np-r'].forEach(id => $(id).addEventListener('input', draw));
+  window.addEventListener('resize', draw);
+  draw();
+})();

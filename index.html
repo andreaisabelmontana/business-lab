@@ -37,6 +37,7 @@
         <a href="#porter">five forces</a>
         <a href="#org">org tree</a>
         <a href="#saas">SaaS growth</a>
+        <a href="#npv">NPV / DCF</a>
       </nav>
     </header>
 
@@ -250,6 +251,35 @@
             <div class="readout"><span>MRR at horizon</span><strong id="sa-end" class="mono">—</strong></div>
             <div class="readout"><span>steady-state MRR</span><strong id="sa-steady" class="mono">—</strong></div>
             <div class="readout"><span>trajectory</span><strong id="sa-state" class="mono big">—</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 11. NPV & DISCOUNTED CASH FLOW — Module 4, Session 19 (Finance) -->
+      <section class="demo" id="npv">
+        <h2>11. NPV &amp; discounted cash flow</h2>
+        <p class="cap">A project costs $\text{\$}C_0$ today and returns cash flows $\text{CF}_t$ over four years.
+          Each is discounted to present value $PV_t = \dfrac{\text{CF}_t}{(1+r)^t}$, so
+          $\text{NPV} = -C_0 + \sum_{t=1}^{4}\dfrac{\text{CF}_t}{(1+r)^t}$. Raise the discount rate $r$ and watch later
+          bars shrink fastest — accept the project when NPV &gt; 0.</p>
+        <div class="row">
+          <div class="canvas-wrap"><canvas id="cv-npv" width="600" height="340"></canvas></div>
+          <div class="ctrls">
+            <label>initial investment $C_0$ <span class="mono" id="np-c0v">100000</span>
+              <input id="np-c0" type="range" min="0" max="200000" step="5000" value="100000"/></label>
+            <label>cash flow $\text{CF}_1$ <span class="mono" id="np-f1v">30000</span>
+              <input id="np-f1" type="range" min="0" max="80000" step="2500" value="30000"/></label>
+            <label>cash flow $\text{CF}_2$ <span class="mono" id="np-f2v">40000</span>
+              <input id="np-f2" type="range" min="0" max="80000" step="2500" value="40000"/></label>
+            <label>cash flow $\text{CF}_3$ <span class="mono" id="np-f3v">50000</span>
+              <input id="np-f3" type="range" min="0" max="80000" step="2500" value="50000"/></label>
+            <label>cash flow $\text{CF}_4$ <span class="mono" id="np-f4v">40000</span>
+              <input id="np-f4" type="range" min="0" max="80000" step="2500" value="40000"/></label>
+            <label>discount rate $r$ <span class="mono" id="np-rv">10%</span>
+              <input id="np-r" type="range" min="0" max="20" step="1" value="10"/></label>
+            <div class="readout"><span>PV of inflows</span><strong id="np-pv" class="mono">—</strong></div>
+            <div class="readout"><span>payback period</span><strong id="np-pay" class="mono">—</strong></div>
+            <div class="readout"><span>NPV</span><strong id="np-npv" class="mono big">—</strong></div>
           </div>
         </div>
       </section>
