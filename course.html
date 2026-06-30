@@ -11,6 +11,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+            onload="renderMathInElement(document.body, { delimiters: [{left:'$$', right:'$$', display:true},{left:'$', right:'$', display:false}], ignoredTags: ['option','script','textarea'] })"></script>
+
     <link rel="stylesheet" href="./style.css" />
     <style>
       /* course-structure page — scoped additions, reuses :root tokens from style.css */
@@ -109,6 +114,37 @@
       .assess-cards .ac .h .name { font-weight: 700; font-size: 0.85rem; }
       .assess-cards .ac .h .w { font-family: var(--font-mono); font-size: 0.74rem; color: var(--accent); }
       .assess-cards .ac p { margin: 0.25rem 0 0; font-size: 0.8rem; color: var(--ink-soft); }
+
+      /* worked examples & mini-cases (scoped additions, reuses :root tokens) */
+      .worked-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 0.8rem; margin-top: 0.6rem; }
+      .wx { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 8px; padding: 0.7rem 0.85rem 0.8rem; background: var(--bg); }
+      .wx .wx-no { font-family: var(--font-mono); font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+      .wx h3 { margin: 0.05rem 0 0.1rem; font-size: 0.96rem; font-weight: 800; letter-spacing: -0.01em; color: var(--ink); }
+      .wx .wx-tag { font-family: var(--font-mono); font-size: 0.68rem; color: var(--accent); background: var(--accent-soft); padding: 0.08em 0.5em; border-radius: 999px; }
+      .wx p { margin: 0.4rem 0 0; font-size: 0.83rem; color: var(--ink-soft); }
+      .wx p.given { color: var(--ink); }
+      .wx .step-label { color: var(--muted); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.04em; margin: 0.55rem 0 0.1rem; }
+      .wx ol, .wx ul { margin: 0.3rem 0 0; padding-left: 1.15rem; font-size: 0.83rem; color: var(--ink-soft); }
+      .wx ol li, .wx ul li { margin: 0.22rem 0; }
+      .wx li b { color: var(--ink); font-weight: 600; }
+      .wx .verdict { font-size: 0.81rem; color: var(--ink-soft); background: var(--accent-soft); border-radius: 5px; padding: 0.4rem 0.6rem; margin: 0.55rem 0 0; }
+      .wx .verdict b { color: var(--accent); font-weight: 700; }
+      .wx .assume { color: var(--muted); font-size: 0.74rem; margin: 0.5rem 0 0; font-style: italic; }
+      /* mini 2x2 matrices (BCG / TOWS) */
+      .wx-2x2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; margin-top: 0.45rem; }
+      .wx-2x2 .q { border: 1px solid var(--rule); border-radius: 6px; padding: 0.4rem 0.5rem; background: var(--paper); }
+      .wx-2x2 .q .qh { font-weight: 700; font-size: 0.74rem; color: var(--accent); }
+      .wx-2x2 .q .qd { font-size: 0.78rem; color: var(--ink-soft); margin-top: 0.12rem; }
+      /* five-forces / rating rows */
+      .force-row { display: grid; grid-template-columns: 130px 64px 1fr; align-items: baseline; gap: 0.5rem; font-size: 0.81rem; padding: 0.28rem 0; border-bottom: 1px solid var(--rule); }
+      .force-row:last-child { border-bottom: 0; }
+      .force-row .fname { font-weight: 600; color: var(--ink); }
+      .force-row .rate { font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600; border-radius: 999px; padding: 0.06em 0.55em; text-align: center; }
+      .rate.hi { color: var(--bad); background: color-mix(in srgb, var(--bad) 13%, transparent); }
+      .rate.med { color: var(--gold); background: color-mix(in srgb, var(--gold) 14%, transparent); }
+      .rate.lo { color: var(--good); background: color-mix(in srgb, var(--good) 14%, transparent); }
+      .force-row .fwhy { color: var(--ink-soft); }
+      @media (max-width: 520px) { .force-row { grid-template-columns: 1fr; gap: 0.1rem; } .wx-2x2 { grid-template-columns: 1fr; } }
     </style>
   </head>
   <body>
@@ -124,6 +160,7 @@
         <a href="#objectives">objectives</a>
         <a href="#assessment">assessment</a>
         <a href="#program">program</a>
+        <a href="#worked">worked</a>
         <a href="#glossary">glossary</a>
         <a href="#biblio">bibliography</a>
         <a href="./SYLLABUS.pdf" target="_blank">syllabus PDF</a>
@@ -691,6 +728,157 @@
             <div class="s-title">Final Exam</div>
             <p class="s-obj">Comprehensive individual exam — essay and semi-structured questions; min. 40% required to pass the course.</p>
           </div>
+        </div>
+      </section>
+
+      <!-- WORKED EXAMPLES & MINI-CASES -->
+      <section class="demo" id="worked">
+        <h2>Worked examples &amp; mini-cases</h2>
+        <p class="cap">A depth layer that goes beyond the outline: fully-worked, step-by-step numbers for the course's
+          quantitative tools, and short applied mini-cases for its qualitative frameworks. Every framework and every
+          calculation here is correct; <strong>all company, industry and financial figures are illustrative /
+          hypothetical</strong> — chosen to make the method clear, never presented as real-company facts.</p>
+
+        <div class="worked-grid">
+
+          <!-- 1 · BREAK-EVEN -->
+          <div class="wx">
+            <div class="wx-no">Worked example 1 · <span class="wx-tag">finance · S19</span></div>
+            <h3>Break-even, contribution margin &amp; margin of safety</h3>
+            <p class="given"><b>Assumptions (illustrative).</b> A hardware startup sells a single smart-sensor at a
+              price $P = \text{\$}40$ per unit. Variable cost (parts, assembly, shipping) is $V = \text{\$}16$ per unit.
+              Fixed costs (rent, salaries, tooling) are $F = \text{\$}120{,}000$ per year.</p>
+            <div class="step-label">Step 1 — contribution margin</div>
+            <p>Each unit sold covers its own variable cost and contributes the rest toward fixed costs:
+              $$\text{CM} = P - V = 40 - 16 = \text{\$}24 \text{ per unit} \quad(\text{CM ratio} = \tfrac{24}{40} = 60\%).$$</p>
+            <div class="step-label">Step 2 — break-even volume &amp; revenue</div>
+            <p>$$Q^{*} = \frac{F}{P-V} = \frac{120{,}000}{24} = 5{,}000 \text{ units}, \qquad
+              \text{Revenue}^{*} = Q^{*}\!\times P = 5{,}000\times 40 = \text{\$}200{,}000.$$</p>
+            <div class="step-label">Step 3 — margin of safety (planning to sell 7,000)</div>
+            <p>$$\text{MoS} = \frac{Q_{\text{actual}} - Q^{*}}{Q_{\text{actual}}}
+              = \frac{7{,}000 - 5{,}000}{7{,}000} \approx 28.6\%, \qquad
+              \text{Profit} = \text{CM}\times Q - F = 24(7{,}000) - 120{,}000 = \text{\$}48{,}000.$$</p>
+            <div class="verdict"><b>Read it as:</b> sales can fall ~29% before the firm slips into a loss; below 5,000
+              units it burns cash. Every unit above break-even adds a clean $24 of profit.</div>
+          </div>
+
+          <!-- 2 · NPV -->
+          <div class="wx">
+            <div class="wx-no">Worked example 2 · <span class="wx-tag">finance · S19</span></div>
+            <h3>NPV / discounted cash flow of a project</h3>
+            <p class="given"><b>Assumptions (illustrative).</b> A project needs an up-front investment of
+              $\text{\$}100{,}000$ at $t=0$ and is expected to return the cash flows below. The discount rate
+              (cost of capital) is an <em>assumed</em> $r = 10\%$. All figures are hypothetical.</p>
+            <div class="step-label">The rule</div>
+            <p>$$\text{NPV} = -\text{CF}_0 + \sum_{t=1}^{n}\frac{\text{CF}_t}{(1+r)^{t}}, \qquad
+              \text{accept if } \text{NPV} > 0.$$</p>
+            <div class="step-label">Step 1 — discount each year's cash flow</div>
+            <ul>
+              <li>$t=1:\ \dfrac{30{,}000}{1.10^{1}} = \text{\$}27{,}272.73$</li>
+              <li>$t=2:\ \dfrac{40{,}000}{1.10^{2}} = \text{\$}33{,}057.85$</li>
+              <li>$t=3:\ \dfrac{50{,}000}{1.10^{3}} = \text{\$}37{,}565.74$</li>
+              <li>$t=4:\ \dfrac{40{,}000}{1.10^{4}} = \text{\$}27{,}320.54$</li>
+            </ul>
+            <div class="step-label">Step 2 — sum and net off the outlay</div>
+            <p>$$\text{PV of inflows} = \text{\$}125{,}216.86, \qquad
+              \text{NPV} = 125{,}216.86 - 100{,}000 = \text{\$}25{,}216.86.$$</p>
+            <div class="verdict"><b>Decision:</b> NPV $\approx \text{\$}25{,}217 > 0$, so the project creates value at a
+              10% cost of capital &rarr; <b>accept</b>. Note it is sensitive to $r$: a higher discount rate shrinks the
+              later, more heavily-discounted cash flows fastest.</div>
+          </div>
+
+          <!-- 3 · SAAS UNIT ECONOMICS -->
+          <div class="wx">
+            <div class="wx-no">Worked example 3 · <span class="wx-tag">scaling · S23</span></div>
+            <h3>SaaS unit economics — LTV, LTV/CAC &amp; payback</h3>
+            <p class="given"><b>Assumptions (illustrative).</b> A B2B SaaS app has $\text{ARPU} = \text{\$}50$ per user
+              per month, gross margin $= 80\%$, monthly churn $= 2.5\%$ (so the average customer lifetime is
+              $1/0.025 = 40$ months), and a blended customer-acquisition cost of $\text{CAC} = \text{\$}400$.</p>
+            <div class="step-label">Step 1 — monthly gross contribution per user</div>
+            <p>$$\text{ARPU} \times \text{gross margin} = 50 \times 0.80 = \text{\$}40 \text{ / user / month}.$$</p>
+            <div class="step-label">Step 2 — lifetime value</div>
+            <p>$$\text{LTV} = \frac{\text{ARPU}\times\text{gross margin}}{\text{churn}}
+              = \frac{50 \times 0.80}{0.025} = \frac{40}{0.025} = \text{\$}1{,}600.$$</p>
+            <div class="step-label">Step 3 — efficiency ratios</div>
+            <p>$$\frac{\text{LTV}}{\text{CAC}} = \frac{1{,}600}{400} = 4.0, \qquad
+              \text{CAC payback} = \frac{\text{CAC}}{\text{ARPU}\times\text{gross margin}}
+              = \frac{400}{40} = 10 \text{ months}.$$</p>
+            <div class="verdict"><b>Read it as:</b> an LTV/CAC of <b>4.0</b> clears the &ldquo;&gt; 3 is healthy&rdquo;
+              rule of thumb, and a 10-month payback means each customer repays their acquisition cost well within the
+              first year — the model is worth pouring growth spend into.</div>
+          </div>
+
+          <!-- 4 · PORTER FIVE FORCES -->
+          <div class="wx">
+            <div class="wx-no">Mini-case 4 · <span class="wx-tag">strategy · S4</span></div>
+            <h3>Porter's Five Forces — an illustrative budget-airline market</h3>
+            <p class="given"><b>Hypothetical industry:</b> short-haul, low-cost European air travel. Each force is rated
+              by how much it <em>squeezes</em> industry profit, with one concrete reason.</p>
+            <div style="margin-top:0.5rem;">
+              <div class="force-row"><span class="fname">Rivalry</span><span class="rate hi">HIGH</span><span class="fwhy">Near-identical routes, transparent online prices and thin margins push carriers into constant price wars.</span></div>
+              <div class="force-row"><span class="fname">Buyer power</span><span class="rate hi">HIGH</span><span class="fwhy">Leisure flyers compare fares in seconds on aggregators and switch for a few euros — almost zero loyalty.</span></div>
+              <div class="force-row"><span class="fname">Substitutes</span><span class="rate med">MEDIUM</span><span class="fwhy">High-speed rail and video calls replace some short trips, but not most point-to-point journeys.</span></div>
+              <div class="force-row"><span class="fname">Supplier power</span><span class="rate med">MEDIUM</span><span class="fwhy">Only two large aircraft makers and volatile jet-fuel prices, but big fleet orders give scale carriers leverage.</span></div>
+              <div class="force-row"><span class="fname">New entrants</span><span class="rate lo">LOW</span><span class="fwhy">Huge capital needs, scarce airport slots and brand/scale economics deter most newcomers.</span></div>
+            </div>
+            <div class="verdict"><b>Overall:</b> with rivalry and buyer power both high, this is a structurally
+              <b>low-profitability</b> industry — winners compete on relentless cost leadership, not premium pricing.</div>
+          </div>
+
+          <!-- 5 · SWOT -> TOWS -->
+          <div class="wx">
+            <div class="wx-no">Mini-case 5 · <span class="wx-tag">strategy · S4</span></div>
+            <h3>SWOT &rarr; TOWS for an illustrative AI analytics startup</h3>
+            <p class="given"><b>Hypothetical firm.</b> <b>S:</b> strong ML engineering team. <b>W:</b> tiny sales force,
+              low brand awareness. <b>O:</b> surging demand for AI tooling among mid-market firms. <b>T:</b> well-funded
+              incumbents bundling similar features for free.</p>
+            <div class="step-label">TOWS — cross internal with external to derive strategy</div>
+            <div class="wx-2x2">
+              <div class="q"><div class="qh">SO · use strength on opportunity</div><div class="qd">Ship advanced ML features fast to win mid-market customers before incumbents match them.</div></div>
+              <div class="q"><div class="qh">ST · use strength against threat</div><div class="qd">Out-engineer the free bundles with a defensible, hard-to-copy model so &ldquo;free&rdquo; isn't good enough.</div></div>
+              <div class="q"><div class="qh">WO · fix weakness to grab opportunity</div><div class="qd">Add a low-touch self-serve / product-led funnel so weak sales coverage doesn't cap demand capture.</div></div>
+              <div class="q"><div class="qh">WT · defend weakness from threat</div><div class="qd">Partner with or sell into a larger platform to borrow distribution and brand against incumbents.</div></div>
+            </div>
+            <div class="verdict"><b>Takeaway:</b> SWOT only <em>lists</em> factors; TOWS forces each pairing into a
+              concrete action, turning a diagnosis into a strategy.</div>
+          </div>
+
+          <!-- 6 · BCG MATRIX -->
+          <div class="wx">
+            <div class="wx-no">Mini-case 6 · <span class="wx-tag">portfolio · S8</span></div>
+            <h3>BCG growth-share matrix — placing four illustrative products</h3>
+            <p class="given"><b>Hypothetical portfolio</b> of a tech firm, plotted on relative market share (vs. the
+              largest rival) &times; market growth rate. All placements are illustrative.</p>
+            <div class="wx-2x2">
+              <div class="q"><div class="qh">★ Star — high share, high growth</div><div class="qd"><b>Cloud AI platform.</b> Market leader in a fast-growing segment &rarr; <em>invest to defend the lead</em>; it funds itself later.</div></div>
+              <div class="q"><div class="qh">? Question mark — low share, high growth</div><div class="qd"><b>Consumer AI app.</b> Small share in a hot market &rarr; <em>invest selectively or divest</em>; could become a Star or a Dog.</div></div>
+              <div class="q"><div class="qh">$ Cash Cow — high share, low growth</div><div class="qd"><b>Legacy on-prem software.</b> Dominant in a mature market &rarr; <em>harvest cash</em> to fund Stars and Question Marks.</div></div>
+              <div class="q"><div class="qh">☓ Dog — low share, low growth</div><div class="qd"><b>Old hardware peripheral.</b> Weak in a stagnant market &rarr; <em>divest or discontinue</em>; ties up capital for little return.</div></div>
+            </div>
+            <div class="verdict"><b>Portfolio logic:</b> the Cash Cow bankrolls the Star and the better Question Mark;
+              the Dog is wound down. Balance matters — a firm of only Question Marks runs out of cash.</div>
+          </div>
+
+          <!-- 7 · SPECIAL ORDER / CONTRIBUTION DECISION -->
+          <div class="wx">
+            <div class="wx-no">Worked example 7 · <span class="wx-tag">finance · S19</span></div>
+            <h3>Accept a special order? A contribution-based decision</h3>
+            <p class="given"><b>Assumptions (illustrative).</b> Reusing the sensor firm from example 1 ($V = \text{\$}16$,
+              $F = \text{\$}120{,}000$, normal price $\text{\$}40$). It has <em>spare capacity</em>, and a new client
+              offers a one-off order of <b>2,000 units at $\text{\$}22$ each</b>. Fixed costs do not change. Should it accept?</p>
+            <div class="step-label">Step 1 — only relevant (incremental) costs matter</div>
+            <p>With spare capacity, fixed costs are <em>sunk</em> for this decision. Compare the special price to the
+              <b>variable</b> cost, not the full cost:
+              $$\text{Unit contribution} = 22 - 16 = \text{\$}6 > 0.$$</p>
+            <div class="step-label">Step 2 — total incremental profit</div>
+            <p>$$\Delta\text{Profit} = (22 - 16)\times 2{,}000 = \text{\$}12{,}000 \text{ added to operating profit.}$$</p>
+            <div class="verdict"><b>Decision:</b> <b>accept</b> — the order is below the $40 list price but still above
+              variable cost, so each unit adds $6 and the order adds $12,000. <b>Caveats:</b> only valid with genuine
+              spare capacity, and provided the cut price won't cannibalise full-price sales or anchor customers low.</div>
+            <p class="assume">If the firm were at full capacity, the relevant cost would also include the
+              $24 contribution given up on displaced full-price units — and the order would be rejected.</p>
+          </div>
+
         </div>
       </section>
 
